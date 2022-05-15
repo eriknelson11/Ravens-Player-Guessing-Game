@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8" />
+	<title>ranking</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script type="text/javascript" src="public/index.js"></script>
+	
+	<link href="/index.css" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	
+</head>
+
+<body>
+	<div class="container-fluid">
+	<div id="head">
+		
+		
+			<img src="ravensimage.png" alt="ravensimage" id="ravensImgD">
+            <button type="submit" style="color: transparent; background-color: transparent; border-color: transparent; cursor: default;"><i class="fa fa-times" aria-hidden="true" id="rankingX" onclick="history.back()"></i></button>
+		
+	</div>
+
+	<div id="main" class="autocomplete">
+		<h1 id="rank">STATISTICS</h1><br>
+		<%- stats %>
+
+	</div>
+	</div>
+
+</body>
+
+</html>

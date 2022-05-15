@@ -1,0 +1,467 @@
+html,
+body {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #CDDEEE;
+}
+
+#green {
+    background-color: rgba(0, 128, 0, .7);
+    width: 7%;
+}
+
+#yellow {
+    background-color: rgba(255, 219, 88, .7);
+}
+
+#instructions {
+    position: absolute;
+    font-size: 300%;
+    left: 3.5%;
+    top: 20%;
+    cursor: pointer;
+    color: #4b0082;
+}
+
+#directions {
+
+    position: relative;
+    font-size: 225%;
+    top: -8%;
+}
+
+#subDirections {
+    color: #303030;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+#ranking {
+    position: absolute;
+    font-size: 200%;
+    right: 5%;
+    top: 20%;
+    cursor: pointer;
+    color: #4b0082;
+}
+
+#rank {
+
+    margin-top: -2%;
+    font-size: 300%;
+}
+
+#rankingX {
+    position: absolute;
+    font-size: 300%;
+    right: 7%;
+    top: 20%;
+    cursor: pointer;
+    color: #4b0082;
+}
+
+
+
+#head {
+    position: fixed;
+    background-color: #CDDEEE;
+    width: 100%;
+    height: 6em;
+    z-index: 100;
+}
+
+#main {
+    position: absolute;
+    margin-top: 15%;
+    width: 100%;
+    height: 80%;
+}
+
+
+.instructions {
+    font-size: 10%;
+
+}
+
+#ravensImg {
+    width: 15%;
+    height: 100%;
+    margin-left: 42%;
+
+}
+
+h1 {
+    font-size: 500%;
+    width: auto;
+    height: auto;
+    font-family: Sans-serif;
+
+    color: #4b0082;
+    text-align: center;
+    margin-top: -.4%;
+}
+
+#completed {
+    font-size: 100%;
+    width: auto;
+    height: auto;
+    font-family: Sans-serif;
+
+    color: #4b0082;
+    text-align: center;
+
+}
+
+
+.label p {
+    font-family: Sans-serif;
+    display: inline;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 4fr 1fr 1fr 1fr 1fr;
+
+
+}
+
+.pname {
+    border: thin solid black;
+
+    width: 50.3%;
+    border: 1px solid transparent;
+    background-color: #CDDEEE;
+}
+
+.position {
+    border: thin solid black;
+    width: 148%;
+    border: 1px solid transparent;
+    text-align: center;
+    margin-left: -197.5%;
+}
+
+.height {
+    border: thin solid black;
+    width: 148.9%;
+    border: 1px solid transparent;
+    background-color: #CDDEEE;
+    margin-left: -148.3%;
+
+}
+
+.age {
+    border: thin solid black;
+    width: 148.5%;
+    border: 1px solid transparent;
+    background-color: #CDDEEE;
+    margin-left: -98.3%;
+
+}
+
+#ravensImgD {
+    width: 15%;
+    height: 100%;
+
+    margin-left: 42%;
+
+}
+
+.number {
+    border: thin solid black;
+    width: 148%;
+    border: 1px solid transparent;
+    background-color: #CDDEEE;
+    margin-left: -48.6%;
+
+}
+
+#avgScore {
+    font-size: 300%;
+    width: auto;
+    height: auto;
+    font-family: Sans-serif;
+
+    color: #4b0082;
+    text-align: center;
+}
+
+
+
+@viewport {
+    width: device-width;
+    zoom: 1.0;
+}
+
+
+@media (max-width: 600px) {
+    h1 {
+        margin-top: 8%;
+    }
+
+    #directions {
+        position: relative;
+        font-size: 225%;
+        top: -2%;
+    }
+
+    #subDirections {
+        color: #303030;
+        margin-left: 5%;
+        margin-right: 5%;
+    }
+
+    #rank {
+
+        margin-top: 7%;
+        font-size: 300%;
+    }
+
+    #ravensImg {
+        margin-top: -3%;
+    }
+
+    #ravensImgD {
+        width: 28%;
+        height: 100%;
+
+        margin-left: 35%;
+
+    }
+
+    #head {
+        height: 5em;
+    }
+
+
+    .label p {
+        position: absolute;
+    }
+
+    .grid {
+        display: grid;
+        grid-template-columns: 4fr 1fr 1fr 1fr 1fr;
+        height: 6.1em;
+    }
+
+    .pname {
+        border: thin solid black;
+
+        width: 49.8%;
+        border: 1px solid transparent;
+        background-color: #CDDEEE;
+    }
+
+    .position {
+        border: thin solid black;
+        width: 147%;
+        border: 1px solid transparent;
+
+        margin-left: -197.5%;
+    }
+
+    .height {
+        border: thin solid black;
+        width: 147%;
+        border: 1px solid transparent;
+        background-color: #CDDEEE;
+        margin-left: -146.6%;
+
+    }
+
+    .age {
+        border: thin solid black;
+        width: 144%;
+        border: 1px solid transparent;
+        background-color: #CDDEEE;
+        margin-left: -96%;
+
+    }
+
+    .number {
+        border: thin solid black;
+        width: 145%;
+        border: 1px solid transparent;
+        background-color: #CDDEEE;
+        margin-left: -48%;
+
+    }
+
+
+
+
+
+    #ravensImg {
+        width: 30%;
+        height: 95%;
+        margin-left: 35%;
+    }
+
+    #position {
+        left: -5%;
+        margin-left: 35%;
+        margin-top: -4%;
+    }
+
+    #height {
+        left: 32.1%;
+        margin-left: 35%;
+        margin-top: -3.7%;
+    }
+
+    #age {
+        left: 52%;
+        margin-left: 35%;
+        margin-top: -3.7%;
+    }
+
+    #number {
+        left: 72%;
+        margin-left: 35%;
+        margin-top: -3.7%;
+    }
+
+    #ranking {
+        position: absolute;
+        font-size: 250%;
+        right: 5%;
+        top: 25%;
+        cursor: pointer;
+        color: #4b0082;
+    }
+
+
+
+}
+
+#position {
+    margin-left: 32.55%;
+}
+
+#height {
+    margin-left: 14.7%;
+}
+
+#age {
+    margin-left: 16.4%;
+}
+
+#number {
+    margin-left: 17.5%;
+}
+
+h2 {
+    font-size: 125%;
+    font-family: Sans-serif;
+    color: #4b0082;
+    text-align: center;
+    margin-top: -3%;
+}
+
+
+
+h4 {
+
+    font-family: Sans-serif;
+    color: black;
+    text-align: center;
+
+}
+
+#guessText {
+    font-size: 125%;
+    font-family: Sans-serif;
+    color: #696969;
+    text-align: center;
+
+}
+
+
+
+#playerInput {
+    position: relative;
+    background-color: #CDDEEE;
+    width: 50%;
+    font-size: 200%;
+    margin-left: 25%;
+    border: thin solid #696969;
+}
+
+#players {
+    position: relative;
+    background-color: #CDDEEE;
+    width: 50%;
+    font-size: 200%;
+    margin-left: 25%;
+    border: thin solid #696969;
+}
+
+
+
+
+
+.autocomplete {
+    /*the container must be positioned relative:*/
+    position: relative;
+    margin-top: 5%;
+    width: 100%;
+    height: 80%;
+}
+
+input {
+    border: 1px solid transparent;
+    background-color: #f1f1f1;
+    padding: 10px;
+    font-size: 16px;
+}
+
+input[type=text] {
+    background-color: #CDDEEE;
+    width: 50%;
+    border-color: darkgrey;
+    border-radius: 5px;
+    margin-top: -4em;
+}
+
+
+
+input[type=text]:hover {
+    border-color: black;
+}
+
+
+.autocomplete-items {
+    position: relative;
+
+    border-bottom: none;
+    border-top: none;
+    z-index: 99;
+    /*position the autocomplete items to be the same width as the container:*/
+    top: 100%;
+    left: -1%;
+    right: 0;
+}
+
+.autocomplete-items div {
+    padding: 10px;
+    cursor: pointer;
+    background-color: #fff;
+    border-bottom: 1px solid #d4d4d4;
+
+
+
+}
+
+.autocomplete-items div:hover {
+    /*when hovering an item:*/
+    background-color: #e9e9e9;
+}
+
+.autocomplete-active {
+    /*when navigating through the items using the arrow keys:*/
+    background-color: DodgerBlue !important;
+    color: #ffffff;
+}

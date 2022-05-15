@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8" />
+	<title>Guess2</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script type="text/javascript" src="public/index.js"></script>
+
+	<link href="/index.css" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+</head>
+
+<body>
+	<div class="container-fluid">
+		<div id="head">
+			<form action="/directions" method="GET">
+				<button type="submit"
+					style="color: transparent; background-color: transparent; border-color: transparent; cursor: default;">
+					<i class="fa fa-question-circle-o" id="instructions" onclick="submit;"></i></button>
+			</form>
+
+			<img src="ravensimage.png" alt="ravensimage" id="ravensImg">
+			<form action="/ranking" method="POST">
+				<button type="submit"
+					style="color: transparent; background-color: transparent; border-color: transparent; cursor: default;">
+					<i class='fa fa-bar-chart' id="ranking" onclick="submit"></i></button>
+			</form>
+
+		</div>
+
+		<div id="main" class="autocomplete">
+			<h1>Truzzle</h1>
+			<h2>RAVENS PLAYER GUESSING GAME</h2>
+			<p id="guessText"><%- count %> of 8 guesses</p>
+
+			<form autocomplete="off" name="inputPlayer" align="center" action="/guess3" method="post">
+				<div class="autocomplete">
+					<input id="myInput" type="text" name="playerGuess">
+				</div>
+			</form>
+			<div class="results">
+				<%- results %>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		var data = <%-JSON.stringify(data) %>;
+		autocomplete(document.getElementById("myInput"), data);
+	</script>
+</body>
+
+</html>

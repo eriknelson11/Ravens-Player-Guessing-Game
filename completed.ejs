@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8" />
+	<title>Completed</title>
+	<link href="/index.css" rel="stylesheet" type="text/css">
+	<script type="text/javascript" src="public/index.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+	<div class="container-fluid">
+	<div id="head">
+		<form action="/directions" method="GET">
+				<button type="submit"
+					style="color: transparent; background-color: transparent; border-color: transparent; cursor: default;">
+					<i class="fa fa-question-circle-o" id="instructions" onclick="submit;"></i></button>
+			</form>
+
+			<img src="ravensimage.png" alt="ravensimage" id="ravensImg">
+			<form action="/ranking" method="POST">
+				<button type="submit"
+					style="color: transparent; background-color: transparent; border-color: transparent; cursor: default;">
+					<i class='fa fa-bar-chart' id="ranking" onclick="submit"></i></button>
+			</form>
+	</div>
+
+	<div id="main" class="autocomplete">
+		<h1>Truzzle</h1>
+		<h2>RAVENS PLAYER GUESSING GAME</h2>
+
+		<%-completed %>
+		<div class="results" >
+			<%- results %>
+		</div>
+
+
+		
+	</div>
+	</div>
+
+
+
+
+
+
+
+</body>
+
+</html>

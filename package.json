@@ -1,0 +1,22 @@
+{
+  "name": "RavensPlayerGuessingGame",
+  "version": "1.0.0",
+  "description": "",
+  "main": "truzzleServer.js",
+  "scripts": {
+    "start": "nodemon truzzleServer.js 5000",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "^5.1.3",
+    "dotenv": "^16.0.0",
+    "ejs": "^3.1.7",
+    "express": "^4.17.3",
+    "http": "^0.0.1-security",
+    "mongodb": "^4.5.0",
+    "node-fetch": "^2.6.7",
+    "nodemon": "^2.0.16"
+  }
+}
