@@ -140,6 +140,9 @@ app.post("/ranking", async function (request, response) {
     let stat = statArr.find(element => element.name == "total");
     await client.close();
     let avg = stat.scores / stat.entries;
+    if (isNaN(avg)) {
+        avg = 0;
+    }
     let avgStr = "";
     if (avg > 8) {
         avgStr = (`Not Completed`)
@@ -1122,11 +1125,13 @@ app.post("/completed", async (request, response) => {
 
         response.render("completed", variables);
     } else {
+        await client.connect();
         await client.db(databaseAndCollection.db)
             .collection(databaseAndCollection.collection)
             .deleteOne({
                 name: name
             });
+        await client.close();
         let variables = {
             results: text,
             data: data,
