@@ -108,19 +108,7 @@ app.get("/", async function (request, response) {
     let variables = {
         data: data
     };
-    let player = {
-        name: name,
-        guess1: "",
-        guess2: "",
-        guess3: "",
-        guess4: "",
-        guess5: "",
-        guess6: "",
-        guess7: "",
-        guess8: ""
-    }
-    await insert(player);
-
+   
     response.render("index", variables);
 });
 
@@ -188,20 +176,8 @@ app.post("/guess1", async (request, response) => {
         playerGuess
 
     } = request.body;
-    var newGuess = {
-        $set: {
-            guess1: playerGuess
-        }
-    };
-    let filter = {
-        name: name
-    };
-    await client.connect();
-    await client.db(databaseAndCollection.db)
-        .collection(databaseAndCollection.collection)
-        .updateOne(filter, newGuess);
+    
     let player = data.find(element => element.Name == playerGuess);
-    await client.close();
 
     let {
         pname,
@@ -283,11 +259,6 @@ app.post("/guess1", async (request, response) => {
         await client.db(databaseAndCollection.db)
             .collection(databaseAndCollection.collection)
             .updateOne(filter, newStat);
-        await client.db(databaseAndCollection.db)
-            .collection(databaseAndCollection.collection)
-            .deleteOne({
-                name: name
-            });
         await client.close();
 
         response.render("completed", variables);
@@ -306,19 +277,7 @@ app.post("/guess2", async (request, response) => {
     let {
         playerGuess
     } = request.body;
-    var newGuess = {
-        $set: {
-            guess2: playerGuess
-        }
-    };
-    let filter = {
-        name: name
-    };
-    await client.connect();
-    await client.db(databaseAndCollection.db)
-        .collection(databaseAndCollection.collection)
-        .updateOne(filter, newGuess);
-    await client.close();
+    
     let player = data.find(element => element.Name == playerGuess);
 
     let {
@@ -406,11 +365,6 @@ app.post("/guess2", async (request, response) => {
         await client.db(databaseAndCollection.db)
             .collection(databaseAndCollection.collection)
             .updateOne(filter, newStat);
-        await client.db(databaseAndCollection.db)
-            .collection(databaseAndCollection.collection)
-            .deleteOne({
-                name: name
-            });
         await client.close();
 
         response.render("completed", variables);
@@ -423,21 +377,7 @@ app.post("/guess3", async (request, response) => {
     let {
         playerGuess
     } = request.body;
-    var newGuess = {
-        $set: {
-            guess3: playerGuess
-        }
-    };
-    let filter = {
-        name: name
-    };
-    await client.connect();
-    await client.db(databaseAndCollection.db)
-        .collection(databaseAndCollection.collection)
-        .updateOne(filter, newGuess);
-    await client.close();
-
-
+  
     let player = data.find(element => element.Name == playerGuess);
 
     let {
@@ -524,11 +464,7 @@ app.post("/guess3", async (request, response) => {
         await client.db(databaseAndCollection.db)
             .collection(databaseAndCollection.collection)
             .updateOne(filter, newStat);
-        await client.db(databaseAndCollection.db)
-            .collection(databaseAndCollection.collection)
-            .deleteOne({
-                name: name
-            });
+        
         await client.close();
 
         response.render("completed", variables);
@@ -543,19 +479,8 @@ app.post("/guess4", async (request, response) => {
     let {
         playerGuess
     } = request.body;
-    var newGuess = {
-        $set: {
-            guess4: playerGuess
-        }
-    };
-    let filter = {
-        name: name
-    };
-    await client.connect();
-    await client.db(databaseAndCollection.db)
-        .collection(databaseAndCollection.collection)
-        .updateOne(filter, newGuess);
-    await client.close();
+   
+     
     let player = data.find(element => element.Name == playerGuess);
 
     let {
@@ -642,11 +567,6 @@ app.post("/guess4", async (request, response) => {
         await client.db(databaseAndCollection.db)
             .collection(databaseAndCollection.collection)
             .updateOne(filter, newStat);
-        await client.db(databaseAndCollection.db)
-            .collection(databaseAndCollection.collection)
-            .deleteOne({
-                name: name
-            });
         await client.close();
 
         response.render("completed", variables);
@@ -660,20 +580,7 @@ app.post("/guess5", async (request, response) => {
     let {
         playerGuess
     } = request.body;
-    var newGuess = {
-        $set: {
-            guess5: playerGuess
-        }
-    };
-    let filter = {
-        name: name
-    };
-    await client.connect();
-    await client.db(databaseAndCollection.db)
-        .collection(databaseAndCollection.collection)
-        .updateOne(filter, newGuess);
-    await client.close();
-
+   
     let player = data.find(element => element.Name == playerGuess);
 
     let {
@@ -761,11 +668,7 @@ app.post("/guess5", async (request, response) => {
         await client.db(databaseAndCollection.db)
             .collection(databaseAndCollection.collection)
             .updateOne(filter, newStat);
-        await client.db(databaseAndCollection.db)
-            .collection(databaseAndCollection.collection)
-            .deleteOne({
-                name: name
-            });
+        
         await client.close();
 
         response.render("completed", variables);
@@ -779,20 +682,7 @@ app.post("/guess6", async (request, response) => {
     let {
         playerGuess
     } = request.body;
-    var newGuess = {
-        $set: {
-            guess6: playerGuess
-        }
-    };
-    let filter = {
-        name: name
-    };
-    await client.connect();
-    await client.db(databaseAndCollection.db)
-        .collection(databaseAndCollection.collection)
-        .updateOne(filter, newGuess);
-    await client.close();
-
+     
     let player = data.find(element => element.Name == playerGuess);
 
     let {
@@ -880,11 +770,6 @@ app.post("/guess6", async (request, response) => {
         await client.db(databaseAndCollection.db)
             .collection(databaseAndCollection.collection)
             .updateOne(filter, newStat);
-        await client.db(databaseAndCollection.db)
-            .collection(databaseAndCollection.collection)
-            .deleteOne({
-                name: name
-            });
         await client.close();
 
         response.render("completed", variables);
@@ -898,20 +783,7 @@ app.post("/guess7", async (request, response) => {
     let {
         playerGuess
     } = request.body;
-    var newGuess = {
-        $set: {
-            guess7: playerGuess
-        }
-    };
-    let filter = {
-        name: name
-    };
-    await client.connect();
-    await client.db(databaseAndCollection.db)
-        .collection(databaseAndCollection.collection)
-        .updateOne(filter, newGuess);
-    await client.close();
-
+   
     let player = data.find(element => element.Name == playerGuess);
 
     let {
@@ -1000,11 +872,7 @@ app.post("/guess7", async (request, response) => {
         await client.db(databaseAndCollection.db)
             .collection(databaseAndCollection.collection)
             .updateOne(filter, newStat);
-        await client.db(databaseAndCollection.db)
-            .collection(databaseAndCollection.collection)
-            .deleteOne({
-                name: name
-            });
+       
         await client.close();
 
         response.render("completed", variables);
@@ -1018,19 +886,6 @@ app.post("/completed", async (request, response) => {
     let {
         playerGuess
     } = request.body;
-    var newGuess = {
-        $set: {
-            guess8: playerGuess
-        }
-    };
-    let filter = {
-        name: name
-    };
-    await client.connect();
-    await client.db(databaseAndCollection.db)
-        .collection(databaseAndCollection.collection)
-        .updateOne(filter, newGuess);
-    await client.close();
 
     let player = data.find(element => element.Name == playerGuess);
 
@@ -1116,22 +971,12 @@ app.post("/completed", async (request, response) => {
         await client.db(databaseAndCollection.db)
             .collection(databaseAndCollection.collection)
             .updateOne(filter, newStat);
-        await client.db(databaseAndCollection.db)
-            .collection(databaseAndCollection.collection)
-            .deleteOne({
-                name: name
-            });
+        
         await client.close();
 
         response.render("completed", variables);
     } else {
-        await client.connect();
-        await client.db(databaseAndCollection.db)
-            .collection(databaseAndCollection.collection)
-            .deleteOne({
-                name: name
-            });
-        await client.close();
+        
         let variables = {
             results: text,
             data: data,
