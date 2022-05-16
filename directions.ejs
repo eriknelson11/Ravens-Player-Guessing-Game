@@ -34,7 +34,23 @@
 	</div>
 
 	
+<form name="returnHome" action="/" method="GET">
 
+	</form>
+
+	<script>
+		function validate(){
+			let date = new Date();
+			let hour = date.getHours();
+			let min = date.getMinutes();
+			console.log(hour);
+			console.log(min);
+
+			if (hour == 23 && min == 59){
+				document.returnHome.submit();
+			}			
+		}
+		setInterval(validate,5000);</script>
 
 
 
