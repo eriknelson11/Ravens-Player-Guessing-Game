@@ -42,7 +42,14 @@
 	</div>
 
 
-
+<script>function check(){
+		if(!document.hasFocus()){
+			history.back();
+		} else {
+			setInterval(check, 10000);
+		}
+		}
+		check();</script>
 
 
 

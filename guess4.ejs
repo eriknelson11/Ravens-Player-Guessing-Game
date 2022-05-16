@@ -47,6 +47,14 @@
 	</div>
 
 	<script>
+		function check(){
+		if(!document.hasFocus()){
+			history.back();
+		} else {
+			setInterval(check, 10000);
+		}
+		}
+		check();
 		var data = <%-JSON.stringify(data) %>;
 		autocomplete(document.getElementById("myInput"), data);
 	</script>

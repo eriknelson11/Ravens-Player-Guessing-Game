@@ -46,28 +46,39 @@ const client = new MongoClient(uri, {
 app.use("/public", express.static('./public/'));
 
 async function getJSONData(url) {
-  const result = await nodeFetch(
-    url
-  );
-  const json = await result.json();
+    const result = await nodeFetch(
+        url
+    );
+    const json = await result.json();
 
-  return json;
+    return json;
 }
 
 async function getPlayers() {
     try {
-      console.log("here");
-      const data1 = await getJSONData(`https://api.sportsdata.io/v3/nfl/scores/json/Players/BAL?key=${key}`);
-      
+        console.log("here");
+        const data1 = await getJSONData(`https://api.sportsdata.io/v3/nfl/scores/json/Players/BAL?key=${key}`);
+
         fs.writeFileSync(`players.json`, JSON.stringify(data1));
         return true;
-  } catch (e) {
-    console.log("\n***** ERROR players *****\n" + e);
-  }
+    } catch (e) {
+        console.log("\n***** ERROR players *****\n" + e);
+    }
 }
 
 setInterval(() => getPlayers(), 86400000);
-setInterval(async () => {
+
+
+
+
+let dailyPlayer = "";
+let name = Math.floor(Math.random() * 1000000000);
+var data = "";
+
+async function getData() {
+    let text = fs.readFileSync(`players.json`, 'utf-8');
+    data = JSON.parse(text);
+    dailyPlayer = data.at(Math.floor(Math.random() * (92 - 0 + 1)));
     let filter = {
         name: "total"
     };
@@ -83,18 +94,9 @@ setInterval(async () => {
         .collection(databaseAndCollection.collection)
         .updateOne(filter, reset);
     await client.close();
-}, 86400000);
-let dailyPlayer = "";
-let name = Math.floor(Math.random() * 1000000000);
-var data = "";
-function getData() {
-    let text = fs.readFileSync(`players.json`, 'utf-8');
-    data = JSON.parse(text); 
-    dailyPlayer = data.at(Math.floor(Math.random() * (92 - 0 + 1)));
-    setInterval(getData, 86400000 / 2);
-}
-
+    }
 getData();
+schedule.scheduleJob('0 0 * * *', getData);
 
 app.get("/", async function (request, response) {
     name = Math.floor(Math.random() * 1000000000);
@@ -132,18 +134,20 @@ app.post("/ranking", async function (request, response) {
     const result = await client.db(databaseAndCollection.db)
         .collection(databaseAndCollection.collection)
         .find(filter);
-    
+
     const statArr = await (await result.toArray());
     let stat = statArr.find(element => element.name == "total");
     await client.close();
     let avg = stat.scores / stat.entries;
     let avgStr = "";
-    if (avg > 8) { avgStr = (`Not Completed`) };
+    if (avg > 8) {
+        avgStr = (`Not Completed`)
+    };
     let variables = {
         stats: `<h2 id="subRank"><br>TODAY'S AVERAGE SCORE<br><br></h2>
             <h3 id="avgScore">${avg.toFixed(1) + avgStr}</h3>`
     };
-    response.render("ranking",variables);
+    response.render("ranking", variables);
 });
 
 
@@ -205,11 +209,10 @@ app.post("/guess1", async (request, response) => {
 
     if (player.Position == dailyPlayer.Position) {
         position = "rgba(0,128,0,.7)";
-    }
-    else if (player.PositionCategory == dailyPlayer.PositionCategory) {
+    } else if (player.PositionCategory == dailyPlayer.PositionCategory) {
         position = "rgba(255, 219, 88,.7)";
     }
-    
+
     let ph = player.Height.match(/\d+/g);
     let pheight = 12 * parseInt(ph.at(0)) + parseInt(ph.at(1));
     let dph = dailyPlayer.Height.match(/\d+/g);
@@ -220,29 +223,26 @@ app.post("/guess1", async (request, response) => {
 
     if (pheight == dpheight) {
         height = "rgba(0,128,0,.7)";
-    }
-    else if ((pheight - dpheight) <= 2 && (pheight - dpheight) > 0) {
+    } else if ((pheight - dpheight) <= 2 && (pheight - dpheight) > 0) {
         height = "rgba(255, 219, 88,.7)";
         htR = `<br>&#8595;`;
     } else if ((pheight - dpheight) < 0 && (pheight - dpheight) >= -2) {
         htR = `<br>&#8593;`;
-                height = "rgba(255, 219, 88,.7)";
+        height = "rgba(255, 219, 88,.7)";
 
     }
     if (parseInt(player.Age) == parseInt(dailyPlayer.Age)) {
         age = "rgba(0,128,0,.7)";
-    }
-    else if ((parseInt(player.Age) - parseInt(dailyPlayer.Age)) <= 2 && (parseInt(player.Age) - parseInt(dailyPlayer.Age)) > 0) {
+    } else if ((parseInt(player.Age) - parseInt(dailyPlayer.Age)) <= 2 && (parseInt(player.Age) - parseInt(dailyPlayer.Age)) > 0) {
         age = "rgba(255, 219, 88,.7)";
-         ageR = `<br>&#8595;`;
-    }else if ((parseInt(player.Age) - parseInt(dailyPlayer.Age)) < 0 && (parseInt(player.Age) - parseInt(dailyPlayer.Age)) >= -2) {
+        ageR = `<br>&#8595;`;
+    } else if ((parseInt(player.Age) - parseInt(dailyPlayer.Age)) < 0 && (parseInt(player.Age) - parseInt(dailyPlayer.Age)) >= -2) {
         age = "rgba(255, 219, 88,.7)";
-         ageR = `<br>&#8593;`;
+        ageR = `<br>&#8593;`;
     }
     if (parseInt(player.Number) == parseInt(dailyPlayer.Number)) {
         number = "rgba(0,128,0,.7)";
-    }
-    else if ((parseInt(player.Number) - parseInt(dailyPlayer.Number)) <= 2 && (parseInt(player.Number) - parseInt(dailyPlayer.Number)) > 0) {
+    } else if ((parseInt(player.Number) - parseInt(dailyPlayer.Number)) <= 2 && (parseInt(player.Number) - parseInt(dailyPlayer.Number)) > 0) {
         number = "rgba(255, 219, 88,.7)";
         numbR = `<br>&#8595;`;
     } else if ((parseInt(player.Number) - parseInt(dailyPlayer.Number)) < 0 && (parseInt(player.Number) - parseInt(dailyPlayer.Number)) >= -2) {
@@ -253,7 +253,7 @@ app.post("/guess1", async (request, response) => {
         pname = "rgba(0,128,0,.7)";
     }
     css1 = `<style>#guess1Name {background-color: ${pname};}#guess1Pos {background-color: ${position};}#guess1Ht {background-color: ${height};}#guess1Age {background-color: ${age};}#guess1Numb {background-color: ${number};}</style>`;
-    res1 = getTiles(player, 1,ageR,htR,numbR);
+    res1 = getTiles(player, 1, ageR, htR, numbR);
 
     let text = css1 + resultFormat + res1;
 
@@ -281,7 +281,9 @@ app.post("/guess1", async (request, response) => {
             .updateOne(filter, newStat);
         await client.db(databaseAndCollection.db)
             .collection(databaseAndCollection.collection)
-            .deleteOne({ name: name });
+            .deleteOne({
+                name: name
+            });
         await client.close();
 
         response.render("completed", variables);
@@ -337,14 +339,13 @@ app.post("/guess2", async (request, response) => {
     let pheight = 12 * parseInt(ph.at(0)) + parseInt(ph.at(1));
     let dph = dailyPlayer.Height.match(/\d+/g);
     let dpheight = 12 * parseInt(dph.at(0)) + parseInt(dph.at(1));
-let htR = "";
+    let htR = "";
     let ageR = "";
     let numbR = "";
 
     if (pheight == dpheight) {
         height = "rgba(0,128,0,.7)";
-    }
-    else if ((pheight - dpheight) <= 2 && (pheight - dpheight) > 0) {
+    } else if ((pheight - dpheight) <= 2 && (pheight - dpheight) > 0) {
         height = "rgba(255, 219, 88,.7)";
         htR = `<br>&#8595;`;
     } else if ((pheight - dpheight) < 0 && (pheight - dpheight) >= -2) {
@@ -353,18 +354,16 @@ let htR = "";
     }
     if (parseInt(player.Age) == parseInt(dailyPlayer.Age)) {
         age = "rgba(0,128,0,.7)";
-    }
-    else if ((parseInt(player.Age) - parseInt(dailyPlayer.Age)) <= 2 && (parseInt(player.Age) - parseInt(dailyPlayer.Age)) > 0) {
+    } else if ((parseInt(player.Age) - parseInt(dailyPlayer.Age)) <= 2 && (parseInt(player.Age) - parseInt(dailyPlayer.Age)) > 0) {
         age = "rgba(255, 219, 88,.7)";
-         ageR = `<br>&#8595;`;
-    }else if ((parseInt(player.Age) - parseInt(dailyPlayer.Age)) < 0 && (parseInt(player.Age) - parseInt(dailyPlayer.Age)) >= -2) {
+        ageR = `<br>&#8595;`;
+    } else if ((parseInt(player.Age) - parseInt(dailyPlayer.Age)) < 0 && (parseInt(player.Age) - parseInt(dailyPlayer.Age)) >= -2) {
         age = "rgba(255, 219, 88,.7)";
-         ageR = `<br>&#8593;`;
+        ageR = `<br>&#8593;`;
     }
     if (parseInt(player.Number) == parseInt(dailyPlayer.Number)) {
         number = "rgba(0,128,0,.7)";
-    }
-    else if ((parseInt(player.Number) - parseInt(dailyPlayer.Number)) <= 2 && (parseInt(player.Number) - parseInt(dailyPlayer.Number)) > 0) {
+    } else if ((parseInt(player.Number) - parseInt(dailyPlayer.Number)) <= 2 && (parseInt(player.Number) - parseInt(dailyPlayer.Number)) > 0) {
         number = "rgba(255, 219, 88,.7)";
         numbR = `<br>&#8595;`;
     } else if ((parseInt(player.Number) - parseInt(dailyPlayer.Number)) < 0 && (parseInt(player.Number) - parseInt(dailyPlayer.Number)) >= -2) {
@@ -375,7 +374,7 @@ let htR = "";
         pname = "rgba(0,128,0,.7)";
     }
     css2 = `<style>#guess2Name {background-color: ${pname};}#guess2Pos {background-color: ${position};}#guess2Ht {background-color: ${height};   }#guess2Age {background-color: ${age};}#guess2Numb {background-color: ${number};}</style>`;
-    res2 = getTiles(player, 2,ageR,htR,numbR);
+    res2 = getTiles(player, 2, ageR, htR, numbR);
 
     let text = css1 + css2 + resultFormat + res1 + '<hr>' + res2;
     let variables = {
@@ -405,7 +404,9 @@ let htR = "";
             .updateOne(filter, newStat);
         await client.db(databaseAndCollection.db)
             .collection(databaseAndCollection.collection)
-            .deleteOne({ name: name });
+            .deleteOne({
+                name: name
+            });
         await client.close();
 
         response.render("completed", variables);
@@ -455,14 +456,13 @@ app.post("/guess3", async (request, response) => {
     let pheight = 12 * parseInt(ph.at(0)) + parseInt(ph.at(1));
     let dph = dailyPlayer.Height.match(/\d+/g);
     let dpheight = 12 * parseInt(dph.at(0)) + parseInt(dph.at(1));
-let htR = "";
+    let htR = "";
     let ageR = "";
     let numbR = "";
 
     if (pheight == dpheight) {
         height = "rgba(0,128,0,.7)";
-    }
-    else if ((pheight - dpheight) <= 2 && (pheight - dpheight) > 0) {
+    } else if ((pheight - dpheight) <= 2 && (pheight - dpheight) > 0) {
         height = "rgba(255, 219, 88,.7)";
         htR = `<br>&#8595;`;
     } else if ((pheight - dpheight) < 0 && (pheight - dpheight) >= -2) {
@@ -471,18 +471,16 @@ let htR = "";
     }
     if (parseInt(player.Age) == parseInt(dailyPlayer.Age)) {
         age = "rgba(0,128,0,.7)";
-    }
-    else if ((parseInt(player.Age) - parseInt(dailyPlayer.Age)) <= 2 && (parseInt(player.Age) - parseInt(dailyPlayer.Age)) > 0) {
+    } else if ((parseInt(player.Age) - parseInt(dailyPlayer.Age)) <= 2 && (parseInt(player.Age) - parseInt(dailyPlayer.Age)) > 0) {
         age = "rgba(255, 219, 88,.7)";
-         ageR = `<br>&#8595;`;
-    }else if ((parseInt(player.Age) - parseInt(dailyPlayer.Age)) < 0 && (parseInt(player.Age) - parseInt(dailyPlayer.Age)) >= -2) {
+        ageR = `<br>&#8595;`;
+    } else if ((parseInt(player.Age) - parseInt(dailyPlayer.Age)) < 0 && (parseInt(player.Age) - parseInt(dailyPlayer.Age)) >= -2) {
         age = "rgba(255, 219, 88,.7)";
-         ageR = `<br>&#8593;`;
+        ageR = `<br>&#8593;`;
     }
     if (parseInt(player.Number) == parseInt(dailyPlayer.Number)) {
         number = "rgba(0,128,0,.7)";
-    }
-    else if ((parseInt(player.Number) - parseInt(dailyPlayer.Number)) <= 2 && (parseInt(player.Number) - parseInt(dailyPlayer.Number)) > 0) {
+    } else if ((parseInt(player.Number) - parseInt(dailyPlayer.Number)) <= 2 && (parseInt(player.Number) - parseInt(dailyPlayer.Number)) > 0) {
         number = "rgba(255, 219, 88,.7)";
         numbR = `<br>&#8595;`;
     } else if ((parseInt(player.Number) - parseInt(dailyPlayer.Number)) < 0 && (parseInt(player.Number) - parseInt(dailyPlayer.Number)) >= -2) {
@@ -493,7 +491,7 @@ let htR = "";
         pname = "rgba(0,128,0,.7)";
     }
     css3 = `<style>#guess3Name {background-color: ${pname};}#guess3Pos {background-color: ${position};}#guess3Ht {background-color: ${height};   }#guess3Age {background-color: ${age};}#guess3Numb {background-color: ${number};}</style>`;
-    res3 = getTiles(player, 3,ageR,htR,numbR);
+    res3 = getTiles(player, 3, ageR, htR, numbR);
 
     let text = css1 + css2 + css3 + resultFormat + res1 + '<hr>' + res2 + '<hr>' + res3;
 
@@ -524,7 +522,9 @@ let htR = "";
             .updateOne(filter, newStat);
         await client.db(databaseAndCollection.db)
             .collection(databaseAndCollection.collection)
-            .deleteOne({ name: name });
+            .deleteOne({
+                name: name
+            });
         await client.close();
 
         response.render("completed", variables);
@@ -551,7 +551,7 @@ app.post("/guess4", async (request, response) => {
     await client.db(databaseAndCollection.db)
         .collection(databaseAndCollection.collection)
         .updateOne(filter, newGuess);
-        await client.close();
+    await client.close();
     let player = data.find(element => element.Name == playerGuess);
 
     let {
@@ -574,14 +574,13 @@ app.post("/guess4", async (request, response) => {
     let pheight = 12 * parseInt(ph.at(0)) + parseInt(ph.at(1));
     let dph = dailyPlayer.Height.match(/\d+/g);
     let dpheight = 12 * parseInt(dph.at(0)) + parseInt(dph.at(1));
-let htR = "";
+    let htR = "";
     let ageR = "";
     let numbR = "";
 
     if (pheight == dpheight) {
         height = "rgba(0,128,0,.7)";
-    }
-    else if ((pheight - dpheight) <= 2 && (pheight - dpheight) > 0) {
+    } else if ((pheight - dpheight) <= 2 && (pheight - dpheight) > 0) {
         height = "rgba(255, 219, 88,.7)";
         htR = `<br>&#8595;`;
     } else if ((pheight - dpheight) < 0 && (pheight - dpheight) >= -2) {
@@ -590,18 +589,16 @@ let htR = "";
     }
     if (parseInt(player.Age) == parseInt(dailyPlayer.Age)) {
         age = "rgba(0,128,0,.7)";
-    }
-    else if ((parseInt(player.Age) - parseInt(dailyPlayer.Age)) <= 2 && (parseInt(player.Age) - parseInt(dailyPlayer.Age)) > 0) {
+    } else if ((parseInt(player.Age) - parseInt(dailyPlayer.Age)) <= 2 && (parseInt(player.Age) - parseInt(dailyPlayer.Age)) > 0) {
         age = "rgba(255, 219, 88,.7)";
-         ageR = `<br>&#8595;`;
-    }else if ((parseInt(player.Age) - parseInt(dailyPlayer.Age)) < 0 && (parseInt(player.Age) - parseInt(dailyPlayer.Age)) >= -2) {
+        ageR = `<br>&#8595;`;
+    } else if ((parseInt(player.Age) - parseInt(dailyPlayer.Age)) < 0 && (parseInt(player.Age) - parseInt(dailyPlayer.Age)) >= -2) {
         age = "rgba(255, 219, 88,.7)";
-         ageR = `<br>&#8593;`;
+        ageR = `<br>&#8593;`;
     }
     if (parseInt(player.Number) == parseInt(dailyPlayer.Number)) {
         number = "rgba(0,128,0,.7)";
-    }
-    else if ((parseInt(player.Number) - parseInt(dailyPlayer.Number)) <= 2 && (parseInt(player.Number) - parseInt(dailyPlayer.Number)) > 0) {
+    } else if ((parseInt(player.Number) - parseInt(dailyPlayer.Number)) <= 2 && (parseInt(player.Number) - parseInt(dailyPlayer.Number)) > 0) {
         number = "rgba(255, 219, 88,.7)";
         numbR = `<br>&#8595;`;
     } else if ((parseInt(player.Number) - parseInt(dailyPlayer.Number)) < 0 && (parseInt(player.Number) - parseInt(dailyPlayer.Number)) >= -2) {
@@ -612,7 +609,7 @@ let htR = "";
         pname = "rgba(0,128,0,.7)";
     }
     css4 = `<style>#guess4Name {background-color: ${pname};}#guess4Pos {background-color: ${position};}#guess4Ht {background-color: ${height};   }#guess4Age {background-color: ${age};}#guess4Numb {background-color: ${number};}</style>`;
-    res4 = getTiles(player, 4 ,ageR,htR,numbR);
+    res4 = getTiles(player, 4, ageR, htR, numbR);
 
     let text = css1 + css2 + css3 + css4 + resultFormat + res1 + '<hr>' + res2 + '<hr>' + res3 + '<hr>' + res4;
 
@@ -643,7 +640,9 @@ let htR = "";
             .updateOne(filter, newStat);
         await client.db(databaseAndCollection.db)
             .collection(databaseAndCollection.collection)
-            .deleteOne({ name: name });
+            .deleteOne({
+                name: name
+            });
         await client.close();
 
         response.render("completed", variables);
@@ -693,14 +692,13 @@ app.post("/guess5", async (request, response) => {
     let pheight = 12 * parseInt(ph.at(0)) + parseInt(ph.at(1));
     let dph = dailyPlayer.Height.match(/\d+/g);
     let dpheight = 12 * parseInt(dph.at(0)) + parseInt(dph.at(1));
-let htR = "";
+    let htR = "";
     let ageR = "";
     let numbR = "";
 
     if (pheight == dpheight) {
         height = "rgba(0,128,0,.7)";
-    }
-    else if ((pheight - dpheight) <= 2 && (pheight - dpheight) > 0) {
+    } else if ((pheight - dpheight) <= 2 && (pheight - dpheight) > 0) {
         height = "rgba(255, 219, 88,.7)";
         htR = `<br>&#8595;`;
     } else if ((pheight - dpheight) < 0 && (pheight - dpheight) >= -2) {
@@ -709,18 +707,16 @@ let htR = "";
     }
     if (parseInt(player.Age) == parseInt(dailyPlayer.Age)) {
         age = "rgba(0,128,0,.7)";
-    }
-    else if ((parseInt(player.Age) - parseInt(dailyPlayer.Age)) <= 2 && (parseInt(player.Age) - parseInt(dailyPlayer.Age)) > 0) {
+    } else if ((parseInt(player.Age) - parseInt(dailyPlayer.Age)) <= 2 && (parseInt(player.Age) - parseInt(dailyPlayer.Age)) > 0) {
         age = "rgba(255, 219, 88,.7)";
-         ageR = `<br>&#8595;`;
-    }else if ((parseInt(player.Age) - parseInt(dailyPlayer.Age)) < 0 && (parseInt(player.Age) - parseInt(dailyPlayer.Age)) >= -2) {
+        ageR = `<br>&#8595;`;
+    } else if ((parseInt(player.Age) - parseInt(dailyPlayer.Age)) < 0 && (parseInt(player.Age) - parseInt(dailyPlayer.Age)) >= -2) {
         age = "rgba(255, 219, 88,.7)";
-         ageR = `<br>&#8593;`;
+        ageR = `<br>&#8593;`;
     }
     if (parseInt(player.Number) == parseInt(dailyPlayer.Number)) {
         number = "rgba(0,128,0,.7)";
-    }
-    else if ((parseInt(player.Number) - parseInt(dailyPlayer.Number)) <= 2 && (parseInt(player.Number) - parseInt(dailyPlayer.Number)) > 0) {
+    } else if ((parseInt(player.Number) - parseInt(dailyPlayer.Number)) <= 2 && (parseInt(player.Number) - parseInt(dailyPlayer.Number)) > 0) {
         number = "rgba(255, 219, 88,.7)";
         numbR = `<br>&#8595;`;
     } else if ((parseInt(player.Number) - parseInt(dailyPlayer.Number)) < 0 && (parseInt(player.Number) - parseInt(dailyPlayer.Number)) >= -2) {
@@ -731,7 +727,7 @@ let htR = "";
         pname = "rgba(0,128,0,.7)";
     }
     css5 = `<style>#guess5Name {background-color: ${pname};}#guess5Pos {background-color: ${position};}#guess5Ht {background-color: ${height};   }#guess5Age {background-color: ${age};}#guess5Numb {background-color: ${number};}</style>`;
-    res5 = getTiles(player, 5,ageR,htR,numbR);
+    res5 = getTiles(player, 5, ageR, htR, numbR);
 
     let text = css1 + css2 + css3 + css4 + css5 + resultFormat + res1 + '<hr>' + res2 + '<hr>' + res3 + '<hr>' + res4 + '<hr>' + res5;
 
@@ -763,7 +759,9 @@ let htR = "";
             .updateOne(filter, newStat);
         await client.db(databaseAndCollection.db)
             .collection(databaseAndCollection.collection)
-            .deleteOne({ name: name });
+            .deleteOne({
+                name: name
+            });
         await client.close();
 
         response.render("completed", variables);
@@ -813,14 +811,13 @@ app.post("/guess6", async (request, response) => {
     let pheight = 12 * parseInt(ph.at(0)) + parseInt(ph.at(1));
     let dph = dailyPlayer.Height.match(/\d+/g);
     let dpheight = 12 * parseInt(dph.at(0)) + parseInt(dph.at(1));
-let htR = "";
+    let htR = "";
     let ageR = "";
     let numbR = "";
 
     if (pheight == dpheight) {
         height = "rgba(0,128,0,.7)";
-    }
-    else if ((pheight - dpheight) <= 2 && (pheight - dpheight) > 0) {
+    } else if ((pheight - dpheight) <= 2 && (pheight - dpheight) > 0) {
         height = "rgba(255, 219, 88,.7)";
         htR = `<br>&#8595;`;
     } else if ((pheight - dpheight) < 0 && (pheight - dpheight) >= -2) {
@@ -829,18 +826,16 @@ let htR = "";
     }
     if (parseInt(player.Age) == parseInt(dailyPlayer.Age)) {
         age = "rgba(0,128,0,.7)";
-    }
-    else if ((parseInt(player.Age) - parseInt(dailyPlayer.Age)) <= 2 && (parseInt(player.Age) - parseInt(dailyPlayer.Age)) > 0) {
+    } else if ((parseInt(player.Age) - parseInt(dailyPlayer.Age)) <= 2 && (parseInt(player.Age) - parseInt(dailyPlayer.Age)) > 0) {
         age = "rgba(255, 219, 88,.7)";
-         ageR = `<br>&#8595;`;
-    }else if ((parseInt(player.Age) - parseInt(dailyPlayer.Age)) < 0 && (parseInt(player.Age) - parseInt(dailyPlayer.Age)) >= -2) {
+        ageR = `<br>&#8595;`;
+    } else if ((parseInt(player.Age) - parseInt(dailyPlayer.Age)) < 0 && (parseInt(player.Age) - parseInt(dailyPlayer.Age)) >= -2) {
         age = "rgba(255, 219, 88,.7)";
-         ageR = `<br>&#8593;`;
+        ageR = `<br>&#8593;`;
     }
     if (parseInt(player.Number) == parseInt(dailyPlayer.Number)) {
         number = "rgba(0,128,0,.7)";
-    }
-    else if ((parseInt(player.Number) - parseInt(dailyPlayer.Number)) <= 2 && (parseInt(player.Number) - parseInt(dailyPlayer.Number)) > 0) {
+    } else if ((parseInt(player.Number) - parseInt(dailyPlayer.Number)) <= 2 && (parseInt(player.Number) - parseInt(dailyPlayer.Number)) > 0) {
         number = "rgba(255, 219, 88,.7)";
         numbR = `<br>&#8595;`;
     } else if ((parseInt(player.Number) - parseInt(dailyPlayer.Number)) < 0 && (parseInt(player.Number) - parseInt(dailyPlayer.Number)) >= -2) {
@@ -851,7 +846,7 @@ let htR = "";
         pname = "rgba(0,128,0,.7)";
     }
     css6 = `<style>#guess6Name {background-color: ${pname};}#guess6Pos {background-color: ${position};}#guess6Ht {background-color: ${height};   }#guess6Age {background-color: ${age};}#guess6Numb {background-color: ${number};}</style>`;
-    res6 = getTiles(player, 6,ageR,htR,numbR);
+    res6 = getTiles(player, 6, ageR, htR, numbR);
 
     let text = css1 + css2 + css3 + css4 + css5 + css6 + resultFormat + res1 + '<hr>' + res2 + '<hr>' + res3 + '<hr>' + res4 + '<hr>' + res5 + '<hr>' + res6;
 
@@ -883,7 +878,9 @@ let htR = "";
             .updateOne(filter, newStat);
         await client.db(databaseAndCollection.db)
             .collection(databaseAndCollection.collection)
-            .deleteOne({ name: name });
+            .deleteOne({
+                name: name
+            });
         await client.close();
 
         response.render("completed", variables);
@@ -934,14 +931,13 @@ app.post("/guess7", async (request, response) => {
     let dph = dailyPlayer.Height.match(/\d+/g);
     let dpheight = 12 * parseInt(dph.at(0)) + parseInt(dph.at(1));
 
-let htR = "";
+    let htR = "";
     let ageR = "";
     let numbR = "";
 
     if (pheight == dpheight) {
         height = "rgba(0,128,0,.7)";
-    }
-    else if ((pheight - dpheight) <= 2 && (pheight - dpheight) > 0) {
+    } else if ((pheight - dpheight) <= 2 && (pheight - dpheight) > 0) {
         height = "rgba(255, 219, 88,.7)";
         htR = `<br>&#8595;`;
     } else if ((pheight - dpheight) < 0 && (pheight - dpheight) >= -2) {
@@ -950,18 +946,16 @@ let htR = "";
     }
     if (parseInt(player.Age) == parseInt(dailyPlayer.Age)) {
         age = "rgba(0,128,0,.7)";
-    }
-    else if ((parseInt(player.Age) - parseInt(dailyPlayer.Age)) <= 2 && (parseInt(player.Age) - parseInt(dailyPlayer.Age)) > 0) {
+    } else if ((parseInt(player.Age) - parseInt(dailyPlayer.Age)) <= 2 && (parseInt(player.Age) - parseInt(dailyPlayer.Age)) > 0) {
         age = "rgba(255, 219, 88,.7)";
-         ageR = `<br>&#8595;`;
-    }else if ((parseInt(player.Age) - parseInt(dailyPlayer.Age)) < 0 && (parseInt(player.Age) - parseInt(dailyPlayer.Age)) >= -2) {
+        ageR = `<br>&#8595;`;
+    } else if ((parseInt(player.Age) - parseInt(dailyPlayer.Age)) < 0 && (parseInt(player.Age) - parseInt(dailyPlayer.Age)) >= -2) {
         age = "rgba(255, 219, 88,.7)";
-         ageR = `<br>&#8593;`;
+        ageR = `<br>&#8593;`;
     }
     if (parseInt(player.Number) == parseInt(dailyPlayer.Number)) {
         number = "rgba(0,128,0,.7)";
-    }
-    else if ((parseInt(player.Number) - parseInt(dailyPlayer.Number)) <= 2 && (parseInt(player.Number) - parseInt(dailyPlayer.Number)) > 0) {
+    } else if ((parseInt(player.Number) - parseInt(dailyPlayer.Number)) <= 2 && (parseInt(player.Number) - parseInt(dailyPlayer.Number)) > 0) {
         number = "rgba(255, 219, 88,.7)";
         numbR = `<br>&#8595;`;
     } else if ((parseInt(player.Number) - parseInt(dailyPlayer.Number)) < 0 && (parseInt(player.Number) - parseInt(dailyPlayer.Number)) >= -2) {
@@ -972,7 +966,7 @@ let htR = "";
         pname = "rgba(0,128,0,.7)";
     }
     css7 = `<style>#guess7Name {background-color: ${pname};}#guess7Pos {background-color: ${position};}#guess7Ht {background-color: ${height};   }#guess7Age {background-color: ${age};}#guess7Numb {background-color: ${number};}</style>`;
-    res7 = getTiles(player, 7,ageR,htR,numbR);
+    res7 = getTiles(player, 7, ageR, htR, numbR);
 
     let text = css1 + css2 + css3 + css4 + css5 + css6 + css7 + resultFormat + res1 + '<hr>' + res2 + '<hr>' + res3 + '<hr>' + res4 + '<hr>' + res5 + '<hr>' + res6 + '<hr>' + res7;
 
@@ -1004,7 +998,9 @@ let htR = "";
             .updateOne(filter, newStat);
         await client.db(databaseAndCollection.db)
             .collection(databaseAndCollection.collection)
-            .deleteOne({ name: name });
+            .deleteOne({
+                name: name
+            });
         await client.close();
 
         response.render("completed", variables);
@@ -1055,14 +1051,13 @@ app.post("/completed", async (request, response) => {
     let dph = dailyPlayer.Height.match(/\d+/g);
     let dpheight = 12 * parseInt(dph.at(0)) + parseInt(dph.at(1));
 
-let htR = "";
+    let htR = "";
     let ageR = "";
     let numbR = "";
 
     if (pheight == dpheight) {
         height = "rgba(0,128,0,.7)";
-    }
-    else if ((pheight - dpheight) <= 2 && (pheight - dpheight) > 0) {
+    } else if ((pheight - dpheight) <= 2 && (pheight - dpheight) > 0) {
         height = "rgba(255, 219, 88,.7)";
         htR = `<br>&#8595;`;
     } else if ((pheight - dpheight) < 0 && (pheight - dpheight) >= -2) {
@@ -1071,18 +1066,16 @@ let htR = "";
     }
     if (parseInt(player.Age) == parseInt(dailyPlayer.Age)) {
         age = "rgba(0,128,0,.7)";
-    }
-    else if ((parseInt(player.Age) - parseInt(dailyPlayer.Age)) <= 2 && (parseInt(player.Age) - parseInt(dailyPlayer.Age)) > 0) {
+    } else if ((parseInt(player.Age) - parseInt(dailyPlayer.Age)) <= 2 && (parseInt(player.Age) - parseInt(dailyPlayer.Age)) > 0) {
         age = "rgba(255, 219, 88,.7)";
-         ageR = `<br>&#8595;`;
-    }else if ((parseInt(player.Age) - parseInt(dailyPlayer.Age)) < 0 && (parseInt(player.Age) - parseInt(dailyPlayer.Age)) >= -2) {
+        ageR = `<br>&#8595;`;
+    } else if ((parseInt(player.Age) - parseInt(dailyPlayer.Age)) < 0 && (parseInt(player.Age) - parseInt(dailyPlayer.Age)) >= -2) {
         age = "rgba(255, 219, 88,.7)";
-         ageR = `<br>&#8593;`;
+        ageR = `<br>&#8593;`;
     }
     if (parseInt(player.Number) == parseInt(dailyPlayer.Number)) {
         number = "rgba(0,128,0,.7)";
-    }
-    else if ((parseInt(player.Number) - parseInt(dailyPlayer.Number)) <= 2 && (parseInt(player.Number) - parseInt(dailyPlayer.Number)) > 0) {
+    } else if ((parseInt(player.Number) - parseInt(dailyPlayer.Number)) <= 2 && (parseInt(player.Number) - parseInt(dailyPlayer.Number)) > 0) {
         number = "rgba(255, 219, 88,.7)";
         numbR = `<br>&#8595;`;
     } else if ((parseInt(player.Number) - parseInt(dailyPlayer.Number)) < 0 && (parseInt(player.Number) - parseInt(dailyPlayer.Number)) >= -2) {
@@ -1093,12 +1086,12 @@ let htR = "";
         pname = "rgba(0,128,0,.7)";
     }
     css8 = `<style>#guess8Name {background-color: ${pname};}#guess8Pos {background-color: ${position};}#guess8Ht {background-color: ${height};   }#guess8Age {background-color: ${age};}#guess8Numb {background-color: ${number};}</style>`;
-    res8 = getTiles(player, 8,ageR,htR,numbR);
+    res8 = getTiles(player, 8, ageR, htR, numbR);
 
     let text = css1 + css2 + css3 + css4 + css5 + css6 + css7 + css8 + resultFormat + res1 + '<hr>' + res2 + '<hr>' + res3 + '<hr>' + res4 + '<hr>' + res5 + '<hr>' + res6 + '<hr>' + res7 + '<hr>' + res8;
 
 
-    
+
     if (player.Name == dailyPlayer.Name) {
         let variables = {
             results: text,
@@ -1121,28 +1114,18 @@ let htR = "";
             .updateOne(filter, newStat);
         await client.db(databaseAndCollection.db)
             .collection(databaseAndCollection.collection)
-            .deleteOne({ name: name });
+            .deleteOne({
+                name: name
+            });
         await client.close();
 
         response.render("completed", variables);
     } else {
-        let filter = {
-            name: "total"
-        };
-
-        var newStat = {
-            $inc: {
-                scores: 9,
-                entries: 1
-            }
-        };
-        await client.connect();
         await client.db(databaseAndCollection.db)
             .collection(databaseAndCollection.collection)
-            .updateOne(filter, newStat);
-        await client.db(databaseAndCollection.db)
-            .collection(databaseAndCollection.collection)
-            .deleteOne({ name: name });
+            .deleteOne({
+                name: name
+            });
         let variables = {
             results: text,
             data: data,
@@ -1173,11 +1156,15 @@ async function insert(application) {
 }
 
 
-function getTiles(guessNumb, pos,ageR,htR,numbR) {
+function getTiles(guessNumb, pos, ageR, htR, numbR) {
     let age = guessNumb.Age;
-    if (age == null) { age = 'N/A' };
+    if (age == null) {
+        age = 'N/A'
+    };
     let numb = guessNumb.Number;
-    if (numb == null) { numb = 'N/A' };
+    if (numb == null) {
+        numb = 'N/A'
+    };
     return `<div class="grid"><div class="pname" id="guess${pos}Name"> <h4 >${guessNumb.Name} </h4></div><div class="position" id="guess${pos}Pos"> <h4 >${guessNumb.Position} </h4></div><div class="height" id="guess${pos}Ht"> <h4 >${guessNumb.Height}${htR} </h4></div><div class="age" id="guess${pos}Age"> <h4 >${age}${ageR}</h4></div><div class="number" id="guess${pos}Numb"> <h4 >${numb}${numbR}</h4></div></div>`
 }
 const port = process.env.PORT;
