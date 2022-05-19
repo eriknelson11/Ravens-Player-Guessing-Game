@@ -325,7 +325,7 @@ app.post("/guess1", async (request, response) => {
     } else {
         let variables = {
             results: text,
-            data: text,
+            data: dataInp,
             count: `1`,
         };
         response.render("guess1", variables);
@@ -423,7 +423,7 @@ app.post("/guess2", async (request, response) => {
     if (player.Name == dailyPlayer.Name) {
         let variables = {
             results: text,
-            data: text,
+            data: dataInp,
             completed: `<h3 id="completed">Truzzle completed in 2/8 tries!</h3>`
         };
         let filter = {
