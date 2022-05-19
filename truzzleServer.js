@@ -136,9 +136,18 @@ async function getData() {
     let hour = date.getHours();
     let min = date.getMinutes();
     let sec = date.getSeconds();
-    if (hour === 23 && min === 59 && sec > 52) {
+        if (hour === 18 && min === 47 && sec > 55) {
+            console.log(hour);
+            console.log(min);
+            console.log(sec);
+
         getData();
-    }
+        }
+        console.log(false);
+
+        console.log(hour);
+            console.log(min);
+            console.log(sec);
 }, 4000);	
 }
     
