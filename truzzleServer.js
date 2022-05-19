@@ -136,7 +136,7 @@ async function getData() {
     let hour = date.getHours();
     let min = date.getMinutes();
     let sec = date.getSeconds();
-    if (hour == 23 && min == 59 && sec > 52) {
+    if (hour === 23 && min === 59 && sec > 52) {
         getData();
     }
 }, 4000);	
