@@ -104,7 +104,8 @@ async function getData() {
     };
     
     let index = Math.floor(Math.random() * (92 - 0 + 1));
-    while (res.includes(String(index))) {
+    let check = data.at(index);
+    while (res.includes(String(index)) && (check.Number == null || check.Age != null || check.Height != null)) {
         index = Math.floor(Math.random() * (92 - 0 + 1));
     }
     var add =  [{ $set: { players: { $concat: [ "$players", `${index},` ] } } }] ;
