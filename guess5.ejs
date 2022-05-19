@@ -54,9 +54,10 @@
 			let date = new Date();
 			let hour = date.getHours();
 			let min = date.getMinutes();
+		let sec = date.getSeconds();
 		
 
-			if (hour == 0 && min == 0){
+			if (hour == 23 && min == 59 && sec > 52){
 				document.returnHome.submit();
 			}			
 		}

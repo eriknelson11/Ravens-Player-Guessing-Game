@@ -136,7 +136,8 @@ setInterval(() => {
     let date = new Date();
     let hour = date.getHours();
     let min = date.getMinutes();
-    if (hour == 0 && min == 0) {
+    let sec = date.getSeconds();
+    if (hour == 23 && min == 59 && sec > 52) {
         getData();
     }
 }, 4000);	
