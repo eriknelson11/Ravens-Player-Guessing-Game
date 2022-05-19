@@ -83,7 +83,8 @@
 			if (navigator.share) {
 				navigator.share({
 						title: `Truzzle ${date} - ${sc}/8`,
-						text: result
+						text: result,
+						url: 'https://truzzle.herokuapp.com'
 					}).catch(console.error);
 			} else {
 				alert("Not Supported");
