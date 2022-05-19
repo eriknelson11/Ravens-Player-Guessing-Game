@@ -60,9 +60,8 @@ let data = {};
 async function getPlayers() {
     try {
         const data1 = await getJSONData(`https://api.sportsdata.io/v3/nfl/scores/json/Players/BAL?key=${key}`);
-        data = Object.entries(data1);
+        data = Object.keys(data1).map(key => data1[key]);
         dataInp = data1;
-        fs.writeFileSync(`players.json`, JSON.stringify(data1));
         
         
     } catch (e) {
@@ -225,14 +224,13 @@ app.post("/guess1", async (request, response) => {
     } = request.body;
     
     let player = data.find(element => element.Name == playerGuess);
-
     let {
         pname,
         position,
         height,
         age,
         number
-    } = "#CDDEEE";
+    } = "#d7e4f0";
 
     if (player.Position == dailyPlayer.Position) {
         position = "rgba(0,128,0,.7)";
@@ -348,7 +346,7 @@ app.post("/guess2", async (request, response) => {
         height,
         age,
         number
-    } = "#CDDEEE";
+    } = "#d7e4f0";
 
 
     if (player.PositionCategory == dailyPlayer.PositionCategory) {
@@ -463,7 +461,7 @@ app.post("/guess3", async (request, response) => {
         height,
         age,
         number
-    } = "#CDDEEE";
+    } = "#d7e4f0";
 
     if (player.PositionCategory == dailyPlayer.PositionCategory) {
         position = "rgba(255, 219, 88,.7)";
@@ -581,7 +579,7 @@ app.post("/guess4", async (request, response) => {
         height,
         age,
         number
-    } = "#CDDEEE";
+    } = "#d7e4f0";
 
     if (player.PositionCategory == dailyPlayer.PositionCategory) {
         position = "rgba(255, 219, 88,.7)";
@@ -696,7 +694,7 @@ app.post("/guess5", async (request, response) => {
         height,
         age,
         number
-    } = "#CDDEEE";
+    } = "#d7e4f0";
 
     if (player.PositionCategory == dailyPlayer.PositionCategory) {
         position = "rgba(255, 219, 88,.7)";
@@ -813,7 +811,7 @@ app.post("/guess6", async (request, response) => {
         height,
         age,
         number
-    } = "#CDDEEE";
+    } = "#d7e4f0";
 
     if (player.PositionCategory == dailyPlayer.PositionCategory) {
         position = "rgba(255, 219, 88,.7)";
@@ -929,7 +927,7 @@ app.post("/guess7", async (request, response) => {
         height,
         age,
         number
-    } = "#CDDEEE";
+    } = "#d7e4f0";
 
     if (player.PositionCategory == dailyPlayer.PositionCategory) {
         position = "rgba(255, 219, 88,.7)";
@@ -1047,7 +1045,7 @@ app.post("/completed", async (request, response) => {
         height,
         age,
         number
-    } = "#CDDEEE";
+    } = "#d7e4f0";
 
     if (player.PositionCategory == dailyPlayer.PositionCategory) {
         position = "rgba(255, 219, 88,.7)";
