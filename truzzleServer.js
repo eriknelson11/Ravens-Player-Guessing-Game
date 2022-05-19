@@ -254,7 +254,7 @@ app.post("/guess1", async (request, response) => {
     if (parseInt(player.Age) < parseInt(dailyPlayer.Age)) {
         ageR = `<br>&#8593;`;
     } else if (parseInt(player.Age) > parseInt(dailyPlayer.Age)) {
-         ageR = `<br>&#8593;`;
+         ageR = `<br>&#8595;`;
     } 
     if (parseInt(player.Number) < parseInt(dailyPlayer.Number)) {
        numbR = `<br>&#8593;`;
@@ -374,7 +374,7 @@ app.post("/guess2", async (request, response) => {
     if (parseInt(player.Age) < parseInt(dailyPlayer.Age)) {
         ageR = `<br>&#8593;`;
     } else if (parseInt(player.Age) > parseInt(dailyPlayer.Age)) {
-         ageR = `<br>&#8593;`;
+         ageR = `<br>&#8595;`;
     } 
     if (parseInt(player.Number) < parseInt(dailyPlayer.Number)) {
        numbR = `<br>&#8593;`;
@@ -487,7 +487,7 @@ app.post("/guess3", async (request, response) => {
     if (parseInt(player.Age) < parseInt(dailyPlayer.Age)) {
         ageR = `<br>&#8593;`;
     } else if (parseInt(player.Age) > parseInt(dailyPlayer.Age)) {
-         ageR = `<br>&#8593;`;
+         ageR = `<br>&#8595;`;
     } 
     if (parseInt(player.Number) < parseInt(dailyPlayer.Number)) {
        numbR = `<br>&#8593;`;
@@ -605,7 +605,7 @@ app.post("/guess4", async (request, response) => {
     if (parseInt(player.Age) < parseInt(dailyPlayer.Age)) {
         ageR = `<br>&#8593;`;
     } else if (parseInt(player.Age) > parseInt(dailyPlayer.Age)) {
-         ageR = `<br>&#8593;`;
+         ageR = `<br>&#8595;`;
     } 
     if (parseInt(player.Number) < parseInt(dailyPlayer.Number)) {
        numbR = `<br>&#8593;`;
@@ -720,7 +720,7 @@ app.post("/guess5", async (request, response) => {
     if (parseInt(player.Age) < parseInt(dailyPlayer.Age)) {
         ageR = `<br>&#8593;`;
     } else if (parseInt(player.Age) > parseInt(dailyPlayer.Age)) {
-         ageR = `<br>&#8593;`;
+         ageR = `<br>&#8595;`;
     } 
     if (parseInt(player.Number) < parseInt(dailyPlayer.Number)) {
        numbR = `<br>&#8593;`;
@@ -837,7 +837,7 @@ app.post("/guess6", async (request, response) => {
     if (parseInt(player.Age) < parseInt(dailyPlayer.Age)) {
         ageR = `<br>&#8593;`;
     } else if (parseInt(player.Age) > parseInt(dailyPlayer.Age)) {
-         ageR = `<br>&#8593;`;
+         ageR = `<br>&#8595;`;
     } 
     if (parseInt(player.Number) < parseInt(dailyPlayer.Number)) {
        numbR = `<br>&#8593;`;
@@ -954,7 +954,7 @@ app.post("/guess7", async (request, response) => {
     if (parseInt(player.Age) < parseInt(dailyPlayer.Age)) {
         ageR = `<br>&#8593;`;
     } else if (parseInt(player.Age) > parseInt(dailyPlayer.Age)) {
-         ageR = `<br>&#8593;`;
+         ageR = `<br>&#8595;`;
     } 
     if (parseInt(player.Number) < parseInt(dailyPlayer.Number)) {
        numbR = `<br>&#8593;`;

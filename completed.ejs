@@ -84,10 +84,7 @@
 				navigator.share({
 						title: `Truzzle ${date} - ${sc}/8`,
 						text: result
-					}).then(() => {
-						console.log('Thanks for sharing!');
-					})
-					.catch(console.error);
+					}).catch(console.error);
 			} else {
 				alert("Not Supported");
 			}
