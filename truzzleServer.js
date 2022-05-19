@@ -44,6 +44,8 @@ const client = new MongoClient(uri, {
 });
 
 
+
+
 app.use("/public", express.static('./public/'));
 
 async function getJSONData(url) {
@@ -79,8 +81,41 @@ var data = "";
 async function getData() {
     let text = fs.readFileSync(`players.json`, 'utf-8');
     data = JSON.parse(text);
-    dailyPlayer = data.at(Math.floor(Math.random() * (92 - 0 + 1)));
     let filter = {
+        name: "list"
+    };
+    await client.connect();
+    const result = await client.db(databaseAndCollection.db)
+        .collection(databaseAndCollection.collection)
+        .find(filter);
+    const arr = await (await result.toArray());
+    
+    let res = String(arr[0].players).split(',');
+    if (res.length == 80) {
+        var reset = {
+            $set: {
+                players: ","
+            }
+        };
+    await client.db(databaseAndCollection.db)
+        .collection(databaseAndCollection.collection)
+        .updateOne(filter, reset);
+            
+    };
+    
+    let index = Math.floor(Math.random() * (92 - 0 + 1));
+    while (res.includes(String(index))) {
+        index = Math.floor(Math.random() * (92 - 0 + 1));
+    }
+    var add =  [{ $set: { players: { $concat: [ "$players", `${index},` ] } } }] ;
+    await client.connect();
+    await client.db(databaseAndCollection.db)
+        .collection(databaseAndCollection.collection)
+        .updateOne(filter, add);
+    
+
+    dailyPlayer = data.at(index);
+     filter = {
         name: "total"
     };
 
@@ -97,7 +132,18 @@ async function getData() {
     await client.close();
     }
 getData();
-schedule.scheduleJob('0 0 * * *', getData);
+setInterval(() => {
+    let date = new Date();
+    let hour = date.getHours();
+    let min = date.getMinutes();
+    if (hour == 0 && min == 0) {
+        getData();
+    }
+}, 4000);	
+
+
+
+
 
 app.get("/", async function (request, response) {
     name = Math.floor(Math.random() * 1000000000);
@@ -136,14 +182,14 @@ app.post("/ranking", async function (request, response) {
         avgStr = (`Not Completed`)
     };
     let variables = {
-        stats: `<h2 id="subRank"><br>TODAY'S AVERAGE SCORE<br><br></h2>
+        stats: `<h3 id="subRank"><br>TODAY'S AVERAGE SCORE<br><br></h3>
             <h3 id="avgScore">${avg.toFixed(1) + avgStr}</h3>`
     };
     response.render("ranking", variables);
 });
 
 
-let resultFormat = `<br><div class="label"><p id="position">Position</p><p id="height">Height</p><p id="age">Age</p><p id="number">#</p></div>
+let resultFormat = `<br><div class="label"><p id="position">Pos</p><p id="height">Ht</p><p id="age">Age</p><p id="number">#</p></div>
     <hr>`;
 let {
     css1,
@@ -200,6 +246,21 @@ app.post("/guess1", async (request, response) => {
     let htR = "";
     let ageR = "";
     let numbR = "";
+     if (pheight < dpheight) {
+         htR = `<br>&#8593;`;
+    } else if (pheight > dpheight) {
+         htR = `<br>&#8595;`;
+    } 
+    if (parseInt(player.Age) < parseInt(dailyPlayer.Age)) {
+        ageR = `<br>&#8593;`;
+    } else if (parseInt(player.Age) > parseInt(dailyPlayer.Age)) {
+         ageR = `<br>&#8593;`;
+    } 
+    if (parseInt(player.Number) < parseInt(dailyPlayer.Number)) {
+       numbR = `<br>&#8593;`;
+    } else if (parseInt(player.Number) > parseInt(dailyPlayer.Number)) {
+       numbR = `<br>&#8595;`;
+    }
 
     if (pheight == dpheight) {
         height = "rgba(0,128,0,.7)";
@@ -305,6 +366,21 @@ app.post("/guess2", async (request, response) => {
     let htR = "";
     let ageR = "";
     let numbR = "";
+     if (pheight < dpheight) {
+         htR = `<br>&#8593;`;
+    } else if (pheight > dpheight) {
+         htR = `<br>&#8595;`;
+    } 
+    if (parseInt(player.Age) < parseInt(dailyPlayer.Age)) {
+        ageR = `<br>&#8593;`;
+    } else if (parseInt(player.Age) > parseInt(dailyPlayer.Age)) {
+         ageR = `<br>&#8593;`;
+    } 
+    if (parseInt(player.Number) < parseInt(dailyPlayer.Number)) {
+       numbR = `<br>&#8593;`;
+    } else if (parseInt(player.Number) > parseInt(dailyPlayer.Number)) {
+       numbR = `<br>&#8595;`;
+    }
 
     if (pheight == dpheight) {
         height = "rgba(0,128,0,.7)";
@@ -403,6 +479,21 @@ app.post("/guess3", async (request, response) => {
     let htR = "";
     let ageR = "";
     let numbR = "";
+     if (pheight < dpheight) {
+         htR = `<br>&#8593;`;
+    } else if (pheight > dpheight) {
+         htR = `<br>&#8595;`;
+    } 
+    if (parseInt(player.Age) < parseInt(dailyPlayer.Age)) {
+        ageR = `<br>&#8593;`;
+    } else if (parseInt(player.Age) > parseInt(dailyPlayer.Age)) {
+         ageR = `<br>&#8593;`;
+    } 
+    if (parseInt(player.Number) < parseInt(dailyPlayer.Number)) {
+       numbR = `<br>&#8593;`;
+    } else if (parseInt(player.Number) > parseInt(dailyPlayer.Number)) {
+       numbR = `<br>&#8595;`;
+    }
 
     if (pheight == dpheight) {
         height = "rgba(0,128,0,.7)";
@@ -506,6 +597,21 @@ app.post("/guess4", async (request, response) => {
     let htR = "";
     let ageR = "";
     let numbR = "";
+     if (pheight < dpheight) {
+         htR = `<br>&#8593;`;
+    } else if (pheight > dpheight) {
+         htR = `<br>&#8595;`;
+    } 
+    if (parseInt(player.Age) < parseInt(dailyPlayer.Age)) {
+        ageR = `<br>&#8593;`;
+    } else if (parseInt(player.Age) > parseInt(dailyPlayer.Age)) {
+         ageR = `<br>&#8593;`;
+    } 
+    if (parseInt(player.Number) < parseInt(dailyPlayer.Number)) {
+       numbR = `<br>&#8593;`;
+    } else if (parseInt(player.Number) > parseInt(dailyPlayer.Number)) {
+       numbR = `<br>&#8595;`;
+    }
 
     if (pheight == dpheight) {
         height = "rgba(0,128,0,.7)";
@@ -606,6 +712,21 @@ app.post("/guess5", async (request, response) => {
     let htR = "";
     let ageR = "";
     let numbR = "";
+     if (pheight < dpheight) {
+         htR = `<br>&#8593;`;
+    } else if (pheight > dpheight) {
+         htR = `<br>&#8595;`;
+    } 
+    if (parseInt(player.Age) < parseInt(dailyPlayer.Age)) {
+        ageR = `<br>&#8593;`;
+    } else if (parseInt(player.Age) > parseInt(dailyPlayer.Age)) {
+         ageR = `<br>&#8593;`;
+    } 
+    if (parseInt(player.Number) < parseInt(dailyPlayer.Number)) {
+       numbR = `<br>&#8593;`;
+    } else if (parseInt(player.Number) > parseInt(dailyPlayer.Number)) {
+       numbR = `<br>&#8595;`;
+    }
 
     if (pheight == dpheight) {
         height = "rgba(0,128,0,.7)";
@@ -708,6 +829,21 @@ app.post("/guess6", async (request, response) => {
     let htR = "";
     let ageR = "";
     let numbR = "";
+     if (pheight < dpheight) {
+         htR = `<br>&#8593;`;
+    } else if (pheight > dpheight) {
+         htR = `<br>&#8595;`;
+    } 
+    if (parseInt(player.Age) < parseInt(dailyPlayer.Age)) {
+        ageR = `<br>&#8593;`;
+    } else if (parseInt(player.Age) > parseInt(dailyPlayer.Age)) {
+         ageR = `<br>&#8593;`;
+    } 
+    if (parseInt(player.Number) < parseInt(dailyPlayer.Number)) {
+       numbR = `<br>&#8593;`;
+    } else if (parseInt(player.Number) > parseInt(dailyPlayer.Number)) {
+       numbR = `<br>&#8595;`;
+    }
 
     if (pheight == dpheight) {
         height = "rgba(0,128,0,.7)";
@@ -810,6 +946,21 @@ app.post("/guess7", async (request, response) => {
     let htR = "";
     let ageR = "";
     let numbR = "";
+     if (pheight < dpheight) {
+         htR = `<br>&#8593;`;
+    } else if (pheight > dpheight) {
+         htR = `<br>&#8595;`;
+    } 
+    if (parseInt(player.Age) < parseInt(dailyPlayer.Age)) {
+        ageR = `<br>&#8593;`;
+    } else if (parseInt(player.Age) > parseInt(dailyPlayer.Age)) {
+         ageR = `<br>&#8593;`;
+    } 
+    if (parseInt(player.Number) < parseInt(dailyPlayer.Number)) {
+       numbR = `<br>&#8593;`;
+    } else if (parseInt(player.Number) > parseInt(dailyPlayer.Number)) {
+       numbR = `<br>&#8595;`;
+    }
 
     if (pheight == dpheight) {
         height = "rgba(0,128,0,.7)";
@@ -913,6 +1064,23 @@ app.post("/completed", async (request, response) => {
     let htR = "";
     let ageR = "";
     let numbR = "";
+    if (pheight < dpheight) {
+         htR = `<br>&#8593;`;
+    } else if (pheight > dpheight) {
+         htR = `<br>&#8595;`;
+    } 
+    if (parseInt(player.Age) < parseInt(dailyPlayer.Age)) {
+        ageR = `<br>&#8593;`;
+    } else if (parseInt(player.Age) > parseInt(dailyPlayer.Age)) {
+         ageR = `<br>&#8593;`;
+    } 
+    if (parseInt(player.Number) < parseInt(dailyPlayer.Number)) {
+       numbR = `<br>&#8593;`;
+    } else if (parseInt(player.Number) > parseInt(dailyPlayer.Number)) {
+       numbR = `<br>&#8595;`;
+    }
+
+
 
     if (pheight == dpheight) {
         height = "rgba(0,128,0,.7)";
@@ -983,7 +1151,7 @@ app.post("/completed", async (request, response) => {
             completed: `<h3 id="completed">Correct Player: ${dailyPlayer.Name}</h3>`
         };
 
-        response.render("completed", variables);
+        response.render("Ncompleted", variables);
     }
 });
 

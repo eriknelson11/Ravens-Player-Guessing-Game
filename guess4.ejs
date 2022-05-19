@@ -54,10 +54,9 @@
 			let date = new Date();
 			let hour = date.getHours();
 			let min = date.getMinutes();
-			console.log(hour);
-			console.log(min);
+			
 
-			if (hour == 23 && min == 59){
+			if (hour == 0 && min == 0){
 				document.returnHome.submit();
 			}			
 		}

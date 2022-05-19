@@ -28,7 +28,7 @@
 		Each guess must be a valid ravens player on the current offseason roster<br><br>
 		After each guess the color of the tiles will show how close your guess was to the player<br><br>
 		In any column, <span id="green">green</span> represents a match, in the position column, <span id="yellow">yellow</span> represents the same position category (Offense, Defense, Special Teams), for all other categories <span id="yellow">yellow</span> represents the value is within 2 (inches,years,numbers) of the player. <br><br>
-		Note: Some players are not assigned numbers yet (rookies), their numbers will have the value N/A</h2>
+		Note: Some players are not assigned numbers yet, their numbers will have the value N/A</h2>
 
 	</div>
 	</div>
@@ -43,10 +43,9 @@
 			let date = new Date();
 			let hour = date.getHours();
 			let min = date.getMinutes();
-			console.log(hour);
-			console.log(min);
+		
 
-			if (hour == 23 && min == 59){
+			if (hour == 0 && min == 0){
 				document.returnHome.submit();
 			}			
 		}

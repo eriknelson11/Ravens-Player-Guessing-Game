@@ -25,6 +25,8 @@
 	<div id="main" class="autocomplete">
 		<h1 id="rank">STATISTICS</h1><br>
 		<%- stats %>
+		<h3 id="newHeader">New Player In</h3>
+		<h3 name="newPlayer" id="newPlayer"></h3>
 
 	</div>
 	</div>
@@ -33,14 +35,24 @@
 	</form>
 
 	<script>
+	
+		function time() {
+		let date = new Date();
+		let hour = date.getHours();
+		let minute = date.getMinutes();
+		let second = date.getSeconds();
+		document.getElementById("newPlayer").innerHTML = `${(23 - hour).toString().padStart(2,0)}:${(60 - minute).toString().padStart(2,0)}:${(60 - second).toString().padStart(2,0)}`;
+		setInterval(time,1000);
+		}
+		time();
+   		
 		function validate(){
 			let date = new Date();
 			let hour = date.getHours();
 			let min = date.getMinutes();
-			console.log(hour);
-			console.log(min);
+			
 
-			if (hour == 23 && min == 59){
+			if (hour == 0 && min == 0){
 				document.returnHome.submit();
 			}			
 		}
