@@ -45,7 +45,7 @@ const client = new MongoClient(uri, {
 
 
 
-
+let text = "";
 app.use("/public", express.static('./public/'));
 
 async function getJSONData(url) {
@@ -59,9 +59,10 @@ async function getJSONData(url) {
 
 async function getPlayers() {
     try {
-        console.log("here");
         const data1 = await getJSONData(`https://api.sportsdata.io/v3/nfl/scores/json/Players/BAL?key=${key}`);
+        text = JSON.stringify(data1);
         fs.writeFileSync(`players.json`, JSON.stringify(data1));
+        
         
     } catch (e) {
         console.log("\n***** ERROR players *****\n" + e);
@@ -78,7 +79,6 @@ let name = Math.floor(Math.random() * 1000000000);
 var data = "";
 
 async function getData() {
-    let text = fs.readFileSync(`players.json`, 'utf-8');
     data = JSON.parse(text);
     let filter = {
         name: "list"
