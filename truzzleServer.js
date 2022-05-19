@@ -45,7 +45,7 @@ const client = new MongoClient(uri, {
 
 
 
-let text = "";
+let dataInp = {};
 app.use("/public", express.static('./public/'));
 
 async function getJSONData(url) {
@@ -56,11 +56,12 @@ async function getJSONData(url) {
 
     return json;
 }
-
+let data = {};
 async function getPlayers() {
     try {
         const data1 = await getJSONData(`https://api.sportsdata.io/v3/nfl/scores/json/Players/BAL?key=${key}`);
-        text = JSON.stringify(data1);
+        data = Object.entries(data1);
+        dataInp = data1;
         fs.writeFileSync(`players.json`, JSON.stringify(data1));
         
         
@@ -76,10 +77,11 @@ setInterval(getPlayers, 86400000);
 
 let dailyPlayer = "";
 let name = Math.floor(Math.random() * 1000000000);
-var data = "";
+
+
+
 
 async function getData() {
-    data = JSON.parse(text);
     let filter = {
         name: "list"
     };
@@ -151,7 +153,7 @@ app.get("/", async function (request, response) {
         .collection(databaseAndCollection.collection)
         .deleteMany({});*/
     let variables = {
-        data: data
+        data: dataInp
     };
    
     response.render("index", variables);
@@ -302,7 +304,7 @@ app.post("/guess1", async (request, response) => {
 
         let variables = {
             results: text,
-            data: data,
+            data: dataInp,
             completed: `<h3 id="completed">Truzzle completed in 1/8 tries!</h3>`
         };
         let filter = {
@@ -325,7 +327,7 @@ app.post("/guess1", async (request, response) => {
     } else {
         let variables = {
             results: text,
-            data: data,
+            data: text,
             count: `1`,
         };
         response.render("guess1", variables);
@@ -417,13 +419,13 @@ app.post("/guess2", async (request, response) => {
     let text = css1 + css2 + resultFormat + res1 + '<hr>' + res2;
     let variables = {
         results: text,
-        data: data,
+        data: dataInp,
         count: `2`
     };
     if (player.Name == dailyPlayer.Name) {
         let variables = {
             results: text,
-            data: data,
+            data: text,
             completed: `<h3 id="completed">Truzzle completed in 2/8 tries!</h3>`
         };
         let filter = {
@@ -531,13 +533,13 @@ app.post("/guess3", async (request, response) => {
 
     let variables = {
         results: text,
-        data: data,
+        data: dataInp,
         count: `3`
     };
     if (player.Name == dailyPlayer.Name) {
         let variables = {
             results: text,
-            data: data,
+            data: dataInp,
             completed: `<h3 id="completed">Truzzle completed in 3/8 tries!</h3>`
         };
         let filter = {
@@ -649,13 +651,13 @@ app.post("/guess4", async (request, response) => {
 
     let variables = {
         results: text,
-        data: data,
+        data: dataInp,
         count: `4`
     };
     if (player.Name == dailyPlayer.Name) {
         let variables = {
             results: text,
-            data: data,
+            data: dataInp,
             completed: `<h3 id="completed">Truzzle completed in 4/8 tries!</h3>`
         };
         let filter = {
@@ -765,13 +767,13 @@ app.post("/guess5", async (request, response) => {
 
     let variables = {
         results: text,
-        data: data,
+        data: dataInp,
         count: `5`
     };
     if (player.Name == dailyPlayer.Name) {
         let variables = {
             results: text,
-            data: data,
+            data: dataInp,
             completed: `<h3 id="completed">Truzzle completed in 5/8 tries!</h3>`
         };
         let filter = {
@@ -882,13 +884,13 @@ app.post("/guess6", async (request, response) => {
 
     let variables = {
         results: text,
-        data: data,
+        data: dataInp,
         count: `6`
     };
     if (player.Name == dailyPlayer.Name) {
         let variables = {
             results: text,
-            data: data,
+            data: dataInp,
             completed: `<h3 id="completed">Truzzle completed in 6/8 tries!</h3>`
         };
         let filter = {
@@ -999,13 +1001,13 @@ app.post("/guess7", async (request, response) => {
 
     let variables = {
         results: text,
-        data: data,
+        data: dataInp,
         count: `7`
     };
     if (player.Name == dailyPlayer.Name) {
         let variables = {
             results: text,
-            data: data,
+            data: dataInp,
             completed: `<h3 id="completed">Truzzle completed in 7/8 tries!</h3>`
         };
         let filter = {
@@ -1121,7 +1123,7 @@ app.post("/completed", async (request, response) => {
     if (player.Name == dailyPlayer.Name) {
         let variables = {
             results: text,
-            data: data,
+            data: dataInp,
             completed: `<h3 id="completed">Truzzle completed in 8/8 tries!</h3>`
         };
         let filter = {
@@ -1146,7 +1148,7 @@ app.post("/completed", async (request, response) => {
         
         let variables = {
             results: text,
-            data: data,
+            data: dataInp,
             completed: `<h3 id="completed">Correct Player: ${dailyPlayer.Name}</h3>`
         };
 
