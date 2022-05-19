@@ -61,7 +61,7 @@
 		
 		tiles.forEach(elem => {
 			if (count == 0){
-				result += '\n';
+				
 			}
 			if(elem.includes('undefined')){
 				result += '⬛';
@@ -74,6 +74,7 @@
 				count += 1;
 			}
 			if (count == 5) {
+				result += '\n';
 				count = 0;
 			}
 		});
