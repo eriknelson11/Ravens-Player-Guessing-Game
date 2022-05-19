@@ -142,6 +142,8 @@ async function getData() {
 }, 4000);	
 }
     
+
+
 getData();
 
 
