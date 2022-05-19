@@ -230,6 +230,7 @@ h1 {
 #shareButton {
     background-color: #4b0082;
     color: white;
+    font-size: 100%;
     width: 10%;
     height: 5%;
     border: solid #4b0082;
