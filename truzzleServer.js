@@ -61,16 +61,15 @@ async function getPlayers() {
     try {
         console.log("here");
         const data1 = await getJSONData(`https://api.sportsdata.io/v3/nfl/scores/json/Players/BAL?key=${key}`);
-
+        setInterval(getPlayers, 86400000);
         fs.writeFileSync(`players.json`, JSON.stringify(data1));
-        return true;
+        
     } catch (e) {
         console.log("\n***** ERROR players *****\n" + e);
     }
 }
 
-setInterval(() => getPlayers(), 86400000);
-
+getPlayers();
 
 
 
