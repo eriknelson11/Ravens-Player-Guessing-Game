@@ -148,12 +148,8 @@ async function getData() {
 getData(); 
 
 setInterval(function() {
-    http.get("https://truzzle.herokuapp.com");
+    http.get("http://truzzle.herokuapp.com");
 }, 300000);
-
-
-
-
 
 
 
