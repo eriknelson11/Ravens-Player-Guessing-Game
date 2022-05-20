@@ -145,7 +145,7 @@ async function getData() {
     
 }
     
-getData();
+getData(); 
 
 setInterval(function() {
     http.get("https://truzzle.herokuapp.com");
