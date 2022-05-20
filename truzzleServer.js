@@ -131,10 +131,7 @@ async function getData() {
         .collection(databaseAndCollection.collection)
         .updateOne(filter, reset);
     await client.close();
-    
-}
-    
-setInterval(() => {
+    setInterval(() => {
     let date = new Date();
     let hour = date.getHours();
     let min = date.getMinutes();
@@ -143,7 +140,16 @@ setInterval(() => {
         getData();
         }
        
-}, 4000);	
+}, 4000);
+
+    
+}
+    
+getData();
+
+setInterval(function() {
+    http.get("https://truzzle.herokuapp.com");
+}, 300000);
 
 
 
