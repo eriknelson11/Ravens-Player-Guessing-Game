@@ -91,7 +91,7 @@ async function getData() {
     const arr = await (await result.toArray());
     
     let res = String(arr[0].players).split(',');
-    if (res.length == 80) {
+    if (res.length == 45) {
         var reset = {
             $set: {
                 players: ","
