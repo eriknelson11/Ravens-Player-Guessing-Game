@@ -62,6 +62,8 @@ async function getPlayers() {
         const data1 = await getJSONData(`https://api.sportsdata.io/v3/nfl/scores/json/Players/BAL?key=${key}`);
         data = Object.keys(data1).map(key => data1[key]);
         dataInp = data1;
+       
+
         
         
     } catch (e) {
@@ -69,7 +71,7 @@ async function getPlayers() {
     }
 }
 
-getPlayers();
+
 setInterval(getPlayers, 86400000);
 
 
@@ -102,7 +104,7 @@ async function getData() {
         .updateOne(filter, reset);
             
     };*/
-    
+    await getPlayers();
     let index = Math.floor(Math.random() * (92 - 0 + 1));
     // let check = data.at(index);
   //  while (res.includes(String(index)) || (check.Number == null || check.Age == null || check.Height == null)) {
@@ -114,8 +116,9 @@ async function getData() {
    //     .collection(databaseAndCollection.collection)
    //     .updateOne(filter, add);
     
-
     dailyPlayer = data.at(index);
+   
+
      filter = {
         name: "total"
     };
