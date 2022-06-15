@@ -56,7 +56,7 @@ async function getJSONData(url) {
 
     return json;
 }
-let data = {};
+let data = [];
 async function getPlayers() {
     try {
         const data1 = await getJSONData(`https://api.sportsdata.io/v3/nfl/scores/json/Players/BAL?key=${key}`);
