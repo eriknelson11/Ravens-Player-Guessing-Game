@@ -124,7 +124,7 @@ async function getData() {
         $set: {
             scores: 0,
             entries: 0
-        }
+        } 
     };
     await client.connect();
     await client.db(databaseAndCollection.db)
