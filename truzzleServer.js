@@ -81,7 +81,7 @@ let name = Math.floor(Math.random() * 1000000000);
 
 
 async function getData() {
-    let filter = {
+    /*let filter = {
         name: "list"
     };
     await client.connect();
@@ -101,18 +101,18 @@ async function getData() {
         .collection(databaseAndCollection.collection)
         .updateOne(filter, reset);
             
-    };
+    };*/
     
     let index = Math.floor(Math.random() * (92 - 0 + 1));
-    let check = data.at(index);
-    while (res.includes(String(index)) || (check.Number == null || check.Age == null || check.Height == null)) {
-        index = Math.floor(Math.random() * (92 - 0 + 1));
-    }
-    var add =  [{ $set: { players: { $concat: [ "$players", `${index},` ] } } }] ;
-    await client.connect();
-    await client.db(databaseAndCollection.db)
-        .collection(databaseAndCollection.collection)
-        .updateOne(filter, add);
+    // let check = data.at(index);
+  //  while (res.includes(String(index)) || (check.Number == null || check.Age == null || check.Height == null)) {
+   //     index = Math.floor(Math.random() * (92 - 0 + 1));
+   // }
+    //var add =  [{ $set: { players: { $concat: [ "$players", `${index},` ] } } }] ;
+  //  await client.connect();
+   // await client.db(databaseAndCollection.db)
+   //     .collection(databaseAndCollection.collection)
+   //     .updateOne(filter, add);
     
 
     dailyPlayer = data.at(index);
