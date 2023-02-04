@@ -5,6 +5,6 @@ Details: This application is a Baltimore Ravens player guessing game, there is a
 
 Youtube Video link: https://youtu.be/GkoZOLRVUp4 
 
-Heroku Link: https://truzzle.herokuapp.com 
+Heroku Link: truzzle-production.up.railway.app 
 
 
