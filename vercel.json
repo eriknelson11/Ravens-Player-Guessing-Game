@@ -1,0 +1,10 @@
+{
+   "version": 2,
+   "name": "truzzle",
+   "builds": [
+      { "src": "truzzleServer.js", "use": "@vercel/node" }
+   ],
+   "routes": [
+      { "src": "/(.*)", "dest": "/truzzleServer.js" }
+   ]
+}
