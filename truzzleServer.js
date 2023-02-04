@@ -151,7 +151,7 @@ async function getData() {
 getData(); 
 
 setInterval(function() {
-    http.get("truzzle.vercel.app");
+    http.get("https://truzzle.onrender.com");
 }, 300000);
 
 
