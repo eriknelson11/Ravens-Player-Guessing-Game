@@ -159,7 +159,10 @@ setInterval(function() {
 
 app.get("/", async function (request, response) {
     name = Math.floor(Math.random() * 1000000000);
-  
+    /*await client.connect();
+    await client.db(databaseAndCollection.db)
+        .collection(databaseAndCollection.collection)
+        .deleteMany({});*/
     let variables = {
         data: dataInp
     };
@@ -1160,6 +1163,11 @@ app.post("/completed", async (request, response) => {
     }
 });
 
+
+
+
+
+
 async function insert(application) {
     try {
         await client.connect();
@@ -1187,4 +1195,4 @@ function getTiles(guessNumb, pos, ageR, htR, numbR) {
     return `<div class="grid"><div class="pname" id="guess${pos}Name"> <h4 >${guessNumb.Name} </h4></div><div class="position" id="guess${pos}Pos"> <h4 >${guessNumb.Position} </h4></div><div class="height" id="guess${pos}Ht"> <h4 >${guessNumb.Height}${htR} </h4></div><div class="age" id="guess${pos}Age"> <h4 >${age}${ageR}</h4></div><div class="number" id="guess${pos}Numb"> <h4 >${numb}${numbR}</h4></div></div>`
 }
 const port = process.env.PORT || 5000;
-//http.createServer(app).listen(port);
+http.createServer(app).listen(port);
