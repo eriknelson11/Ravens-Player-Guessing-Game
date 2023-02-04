@@ -150,9 +150,9 @@ async function getData() {
     
 getData(); 
 
-setInterval(function() {
-    http.get("https://truzzle.onrender.com");
-}, 300000);
+//setInterval(function() {
+  //  http.get("https://truzzle.onrender.com");
+//}, 300000);
 
 
 
