@@ -62,10 +62,6 @@ async function getPlayers() {
         const data1 = await getJSONData(`https://api.sportsdata.io/v3/nfl/scores/json/Players/BAL?key=${key}`);
         data = Object.keys(data1).map(key => data1[key]);
         dataInp = data1;
-       
-
-        
-        
     } catch (e) {
         console.log("\n***** ERROR players *****\n" + e);
     }
@@ -73,16 +69,12 @@ async function getPlayers() {
 
 
 setInterval(getPlayers, 86400000);
-
-
-
 let dailyPlayer = "";
-let name = Math.floor(Math.random() * 1000000000);
-
-
 
 
 async function getData() {
+
+    // BELOW IS USED TO MAKE SURE PLAYERS ARENT REPEATED
     /*let filter = {
         name: "list"
     };
@@ -106,20 +98,9 @@ async function getData() {
     };*/
     await getPlayers();
     let index = Math.floor(Math.random() * (92 - 0 + 1));
-    // let check = data.at(index);
-  //  while (res.includes(String(index)) || (check.Number == null || check.Age == null || check.Height == null)) {
-   //     index = Math.floor(Math.random() * (92 - 0 + 1));
-   // }
-    //var add =  [{ $set: { players: { $concat: [ "$players", `${index},` ] } } }] ;
-  //  await client.connect();
-   // await client.db(databaseAndCollection.db)
-   //     .collection(databaseAndCollection.collection)
-   //     .updateOne(filter, add);
-    
     dailyPlayer = data.at(index);
-   
 
-     filter = {
+    filter = {
         name: "total"
     };
 
@@ -127,7 +108,7 @@ async function getData() {
         $set: {
             scores: 0,
             entries: 0
-        } 
+        }
     };
     await client.connect();
     await client.db(databaseAndCollection.db)
@@ -135,38 +116,30 @@ async function getData() {
         .updateOne(filter, reset);
     await client.close();
     setInterval(() => {
-    let date = new Date();
-    let hour = date.getHours();
-    let min = date.getMinutes();
-    let sec = date.getSeconds();
+        let date = new Date();
+        let hour = date.getHours();
+        let min = date.getMinutes();
+        let sec = date.getSeconds();
         if (hour == 23 && min == 59) {
-        getData();
-        } 
-       
-}, 4000);
- 
-    
-}
-    
-getData(); 
+            getData();
+        }
 
-setInterval(function() {
+    }, 4000);
+
+
+}
+
+getData();
+setInterval(function () {
     http.get("https://truzzle.onrender.com");
 }, 300000);
 
 
-
-
 app.get("/", async function (request, response) {
-    name = Math.floor(Math.random() * 1000000000);
-    /*await client.connect();
-    await client.db(databaseAndCollection.db)
-        .collection(databaseAndCollection.collection)
-        .deleteMany({});*/
     let variables = {
         data: dataInp
     };
-   
+
     response.render("index", variables);
 });
 
@@ -225,16 +198,13 @@ let {
 } = "";
 
 
-
-
-
 app.post("/guess1", async (request, response) => {
 
     let {
         playerGuess
 
     } = request.body;
-    
+
     let player = data.find(element => element.Name == playerGuess);
     let {
         pname,
@@ -257,20 +227,20 @@ app.post("/guess1", async (request, response) => {
     let htR = "";
     let ageR = "";
     let numbR = "";
-     if (pheight < dpheight) {
-         htR = `<br>&#8593;`;
+    if (pheight < dpheight) {
+        htR = `<br>&#8593;`;
     } else if (pheight > dpheight) {
-         htR = `<br>&#8595;`;
-    } 
+        htR = `<br>&#8595;`;
+    }
     if (parseInt(player.Age) < parseInt(dailyPlayer.Age)) {
         ageR = `<br>&#8593;`;
     } else if (parseInt(player.Age) > parseInt(dailyPlayer.Age)) {
-         ageR = `<br>&#8595;`;
-    } 
+        ageR = `<br>&#8595;`;
+    }
     if (parseInt(player.Number) < parseInt(dailyPlayer.Number)) {
-       numbR = `<br>&#8593;`;
+        numbR = `<br>&#8593;`;
     } else if (parseInt(player.Number) > parseInt(dailyPlayer.Number)) {
-       numbR = `<br>&#8595;`;
+        numbR = `<br>&#8595;`;
     }
 
     if (pheight == dpheight) {
@@ -349,7 +319,7 @@ app.post("/guess2", async (request, response) => {
     let {
         playerGuess
     } = request.body;
-    
+
     let player = data.find(element => element.Name == playerGuess);
 
     let {
@@ -377,20 +347,20 @@ app.post("/guess2", async (request, response) => {
     let htR = "";
     let ageR = "";
     let numbR = "";
-     if (pheight < dpheight) {
-         htR = `<br>&#8593;`;
+    if (pheight < dpheight) {
+        htR = `<br>&#8593;`;
     } else if (pheight > dpheight) {
-         htR = `<br>&#8595;`;
-    } 
+        htR = `<br>&#8595;`;
+    }
     if (parseInt(player.Age) < parseInt(dailyPlayer.Age)) {
         ageR = `<br>&#8593;`;
     } else if (parseInt(player.Age) > parseInt(dailyPlayer.Age)) {
-         ageR = `<br>&#8595;`;
-    } 
+        ageR = `<br>&#8595;`;
+    }
     if (parseInt(player.Number) < parseInt(dailyPlayer.Number)) {
-       numbR = `<br>&#8593;`;
+        numbR = `<br>&#8593;`;
     } else if (parseInt(player.Number) > parseInt(dailyPlayer.Number)) {
-       numbR = `<br>&#8595;`;
+        numbR = `<br>&#8595;`;
     }
 
     if (pheight == dpheight) {
@@ -464,7 +434,7 @@ app.post("/guess3", async (request, response) => {
     let {
         playerGuess
     } = request.body;
-  
+
     let player = data.find(element => element.Name == playerGuess);
 
     let {
@@ -490,20 +460,20 @@ app.post("/guess3", async (request, response) => {
     let htR = "";
     let ageR = "";
     let numbR = "";
-     if (pheight < dpheight) {
-         htR = `<br>&#8593;`;
+    if (pheight < dpheight) {
+        htR = `<br>&#8593;`;
     } else if (pheight > dpheight) {
-         htR = `<br>&#8595;`;
-    } 
+        htR = `<br>&#8595;`;
+    }
     if (parseInt(player.Age) < parseInt(dailyPlayer.Age)) {
         ageR = `<br>&#8593;`;
     } else if (parseInt(player.Age) > parseInt(dailyPlayer.Age)) {
-         ageR = `<br>&#8595;`;
-    } 
+        ageR = `<br>&#8595;`;
+    }
     if (parseInt(player.Number) < parseInt(dailyPlayer.Number)) {
-       numbR = `<br>&#8593;`;
+        numbR = `<br>&#8593;`;
     } else if (parseInt(player.Number) > parseInt(dailyPlayer.Number)) {
-       numbR = `<br>&#8595;`;
+        numbR = `<br>&#8595;`;
     }
 
     if (pheight == dpheight) {
@@ -566,7 +536,7 @@ app.post("/guess3", async (request, response) => {
         await client.db(databaseAndCollection.db)
             .collection(databaseAndCollection.collection)
             .updateOne(filter, newStat);
-        
+
         await client.close();
 
         response.render("completed", variables);
@@ -581,8 +551,8 @@ app.post("/guess4", async (request, response) => {
     let {
         playerGuess
     } = request.body;
-   
-     
+
+
     let player = data.find(element => element.Name == playerGuess);
 
     let {
@@ -608,20 +578,20 @@ app.post("/guess4", async (request, response) => {
     let htR = "";
     let ageR = "";
     let numbR = "";
-     if (pheight < dpheight) {
-         htR = `<br>&#8593;`;
+    if (pheight < dpheight) {
+        htR = `<br>&#8593;`;
     } else if (pheight > dpheight) {
-         htR = `<br>&#8595;`;
-    } 
+        htR = `<br>&#8595;`;
+    }
     if (parseInt(player.Age) < parseInt(dailyPlayer.Age)) {
         ageR = `<br>&#8593;`;
     } else if (parseInt(player.Age) > parseInt(dailyPlayer.Age)) {
-         ageR = `<br>&#8595;`;
-    } 
+        ageR = `<br>&#8595;`;
+    }
     if (parseInt(player.Number) < parseInt(dailyPlayer.Number)) {
-       numbR = `<br>&#8593;`;
+        numbR = `<br>&#8593;`;
     } else if (parseInt(player.Number) > parseInt(dailyPlayer.Number)) {
-       numbR = `<br>&#8595;`;
+        numbR = `<br>&#8595;`;
     }
 
     if (pheight == dpheight) {
@@ -697,7 +667,7 @@ app.post("/guess5", async (request, response) => {
     let {
         playerGuess
     } = request.body;
-   
+
     let player = data.find(element => element.Name == playerGuess);
 
     let {
@@ -723,20 +693,20 @@ app.post("/guess5", async (request, response) => {
     let htR = "";
     let ageR = "";
     let numbR = "";
-     if (pheight < dpheight) {
-         htR = `<br>&#8593;`;
+    if (pheight < dpheight) {
+        htR = `<br>&#8593;`;
     } else if (pheight > dpheight) {
-         htR = `<br>&#8595;`;
-    } 
+        htR = `<br>&#8595;`;
+    }
     if (parseInt(player.Age) < parseInt(dailyPlayer.Age)) {
         ageR = `<br>&#8593;`;
     } else if (parseInt(player.Age) > parseInt(dailyPlayer.Age)) {
-         ageR = `<br>&#8595;`;
-    } 
+        ageR = `<br>&#8595;`;
+    }
     if (parseInt(player.Number) < parseInt(dailyPlayer.Number)) {
-       numbR = `<br>&#8593;`;
+        numbR = `<br>&#8593;`;
     } else if (parseInt(player.Number) > parseInt(dailyPlayer.Number)) {
-       numbR = `<br>&#8595;`;
+        numbR = `<br>&#8595;`;
     }
 
     if (pheight == dpheight) {
@@ -800,7 +770,7 @@ app.post("/guess5", async (request, response) => {
         await client.db(databaseAndCollection.db)
             .collection(databaseAndCollection.collection)
             .updateOne(filter, newStat);
-        
+
         await client.close();
 
         response.render("completed", variables);
@@ -814,7 +784,7 @@ app.post("/guess6", async (request, response) => {
     let {
         playerGuess
     } = request.body;
-     
+
     let player = data.find(element => element.Name == playerGuess);
 
     let {
@@ -840,20 +810,20 @@ app.post("/guess6", async (request, response) => {
     let htR = "";
     let ageR = "";
     let numbR = "";
-     if (pheight < dpheight) {
-         htR = `<br>&#8593;`;
+    if (pheight < dpheight) {
+        htR = `<br>&#8593;`;
     } else if (pheight > dpheight) {
-         htR = `<br>&#8595;`;
-    } 
+        htR = `<br>&#8595;`;
+    }
     if (parseInt(player.Age) < parseInt(dailyPlayer.Age)) {
         ageR = `<br>&#8593;`;
     } else if (parseInt(player.Age) > parseInt(dailyPlayer.Age)) {
-         ageR = `<br>&#8595;`;
-    } 
+        ageR = `<br>&#8595;`;
+    }
     if (parseInt(player.Number) < parseInt(dailyPlayer.Number)) {
-       numbR = `<br>&#8593;`;
+        numbR = `<br>&#8593;`;
     } else if (parseInt(player.Number) > parseInt(dailyPlayer.Number)) {
-       numbR = `<br>&#8595;`;
+        numbR = `<br>&#8595;`;
     }
 
     if (pheight == dpheight) {
@@ -930,7 +900,7 @@ app.post("/guess7", async (request, response) => {
     let {
         playerGuess
     } = request.body;
-   
+
     let player = data.find(element => element.Name == playerGuess);
 
     let {
@@ -957,20 +927,20 @@ app.post("/guess7", async (request, response) => {
     let htR = "";
     let ageR = "";
     let numbR = "";
-     if (pheight < dpheight) {
-         htR = `<br>&#8593;`;
+    if (pheight < dpheight) {
+        htR = `<br>&#8593;`;
     } else if (pheight > dpheight) {
-         htR = `<br>&#8595;`;
-    } 
+        htR = `<br>&#8595;`;
+    }
     if (parseInt(player.Age) < parseInt(dailyPlayer.Age)) {
         ageR = `<br>&#8593;`;
     } else if (parseInt(player.Age) > parseInt(dailyPlayer.Age)) {
-         ageR = `<br>&#8595;`;
-    } 
+        ageR = `<br>&#8595;`;
+    }
     if (parseInt(player.Number) < parseInt(dailyPlayer.Number)) {
-       numbR = `<br>&#8593;`;
+        numbR = `<br>&#8593;`;
     } else if (parseInt(player.Number) > parseInt(dailyPlayer.Number)) {
-       numbR = `<br>&#8595;`;
+        numbR = `<br>&#8595;`;
     }
 
     if (pheight == dpheight) {
@@ -1034,7 +1004,7 @@ app.post("/guess7", async (request, response) => {
         await client.db(databaseAndCollection.db)
             .collection(databaseAndCollection.collection)
             .updateOne(filter, newStat);
-       
+
         await client.close();
 
         response.render("completed", variables);
@@ -1076,19 +1046,19 @@ app.post("/completed", async (request, response) => {
     let ageR = "";
     let numbR = "";
     if (pheight < dpheight) {
-         htR = `<br>&#8593;`;
+        htR = `<br>&#8593;`;
     } else if (pheight > dpheight) {
-         htR = `<br>&#8595;`;
-    } 
+        htR = `<br>&#8595;`;
+    }
     if (parseInt(player.Age) < parseInt(dailyPlayer.Age)) {
         ageR = `<br>&#8593;`;
     } else if (parseInt(player.Age) > parseInt(dailyPlayer.Age)) {
-         ageR = `<br>&#8593;`;
-    } 
+        ageR = `<br>&#8593;`;
+    }
     if (parseInt(player.Number) < parseInt(dailyPlayer.Number)) {
-       numbR = `<br>&#8593;`;
+        numbR = `<br>&#8593;`;
     } else if (parseInt(player.Number) > parseInt(dailyPlayer.Number)) {
-       numbR = `<br>&#8595;`;
+        numbR = `<br>&#8595;`;
     }
 
 
@@ -1150,12 +1120,12 @@ app.post("/completed", async (request, response) => {
         await client.db(databaseAndCollection.db)
             .collection(databaseAndCollection.collection)
             .updateOne(filter, newStat);
-        
+
         await client.close();
 
         response.render("completed", variables);
     } else {
-        
+
         let variables = {
             results: text,
             data: dataInp,
@@ -1165,11 +1135,6 @@ app.post("/completed", async (request, response) => {
         response.render("Ncompleted", variables);
     }
 });
-
-
-
-
-
 
 async function insert(application) {
     try {
@@ -1198,27 +1163,4 @@ function getTiles(guessNumb, pos, ageR, htR, numbR) {
     return `<div class="grid"><div class="pname" id="guess${pos}Name"> <h4 >${guessNumb.Name} </h4></div><div class="position" id="guess${pos}Pos"> <h4 >${guessNumb.Position} </h4></div><div class="height" id="guess${pos}Ht"> <h4 >${guessNumb.Height}${htR} </h4></div><div class="age" id="guess${pos}Age"> <h4 >${age}${ageR}</h4></div><div class="number" id="guess${pos}Numb"> <h4 >${numb}${numbR}</h4></div></div>`
 }
 const port = process.env.PORT || 5000;
-http.createServer(app).listen(port);
-
-/*
-let portNumb = process.argv[2];
-console.log(`Web server started and running at http://localhost:${portNumb}`);
-http.createServer(app).listen(process.argv[2]);
-
-
-let prompt = "Type stop to shutdown the server: ";
-process.stdout.write(prompt);
-process.stdin.on("readable", function () {
-    let dataInput = process.stdin.read();
-    if (dataInput !== null) {
-        let command = dataInput.trim();
-        if (command === "stop") {
-            console.log("Shutting down the server");
-            process.exit(0);
-        } else {
-            console.log(`Invalid command: ${command}`);
-        }
-        process.stdout.write(prompt);
-        process.stdin.resume();
-    }
-});*/
+//http.createServer(app).listen(port);
