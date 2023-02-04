@@ -151,7 +151,7 @@ async function getData() {
 getData(); 
 
 setInterval(function() {
-    http.get("http://truzzle.herokuapp.com");
+    http.get("truzzle.vercel.app");
 }, 300000);
 
 
