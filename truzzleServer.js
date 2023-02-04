@@ -226,7 +226,7 @@ let {
 
 
 app.post("/guess1", async (request, response) => {
-
+     console.log("HERE00")
     let {
         playerGuess
 
@@ -306,7 +306,8 @@ app.post("/guess1", async (request, response) => {
 
     let text = css1 + resultFormat + res1;
 
-
+    console.log(player)
+    console.log(dailyPlayer)
     if (player.Name == dailyPlayer.Name) {
 
         let variables = {
@@ -329,7 +330,7 @@ app.post("/guess1", async (request, response) => {
             .collection(databaseAndCollection.collection)
             .updateOne(filter, newStat);
         await client.close();
-
+        console.log("HERE1")
         response.render("completed", variables);
     } else {
         let variables = {
@@ -337,6 +338,7 @@ app.post("/guess1", async (request, response) => {
             data: dataInp,
             count: `1`,
         };
+         console.log("HERE2")
         response.render("guess1", variables);
     }
 });
@@ -1194,5 +1196,5 @@ function getTiles(guessNumb, pos, ageR, htR, numbR) {
     };
     return `<div class="grid"><div class="pname" id="guess${pos}Name"> <h4 >${guessNumb.Name} </h4></div><div class="position" id="guess${pos}Pos"> <h4 >${guessNumb.Position} </h4></div><div class="height" id="guess${pos}Ht"> <h4 >${guessNumb.Height}${htR} </h4></div><div class="age" id="guess${pos}Age"> <h4 >${age}${ageR}</h4></div><div class="number" id="guess${pos}Numb"> <h4 >${numb}${numbR}</h4></div></div>`
 }
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 3000;
 http.createServer(app).listen(port);
